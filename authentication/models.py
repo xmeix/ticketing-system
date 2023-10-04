@@ -22,6 +22,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     role = models.CharField(max_length=10, choices=UserRole.choices , default=UserRole.ADZ)
     date_joined = models.DateTimeField(default=timezone.now)
     
+    
     is_staff = models.BooleanField(_('staff status'), default=False,
         help_text=_('Designates whether the user can log into this admin site.'))
     is_superuser = models.BooleanField(_('superuser status'), default=False,

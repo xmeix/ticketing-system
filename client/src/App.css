@@ -1,9 +1,10 @@
+
 .flex-column {
   display: flex;
   flex-direction: column;
 }
 .flex-row {
-  display: flex; 
+  display: flex;
 }
 
 .align-center {
@@ -12,4 +13,7 @@
 
 .justify-center {
   justify-content: center;
+}
+.justify-between {
+  justify-content: space-between;
 }

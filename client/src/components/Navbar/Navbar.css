@@ -1,0 +1,27 @@
+.navbar {
+  /* border: solid 1px; */
+  padding: 1em 10%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  background-color: var(--white);
+  box-shadow: 0 0 1px 1px rgb(0, 0, 0, 0.2);
+}
+.navbar .nav-title {
+  font-weight: 800;
+}
+.navbar .nav-user {
+  font-size: 12px;
+  font-weight: 600;
+}
+.navbar .nav-params {
+  gap: 1em;
+}
+.navbar .nav-params button {
+  border: none;
+  background-color: var(--blue);
+  color: var(--white);
+  padding: 0.5em 1.5em;
+  border-radius: 2px;
+}

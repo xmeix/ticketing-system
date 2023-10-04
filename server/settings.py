@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+from datetime import datetime
+from celery.schedules import crontab
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -46,7 +49,10 @@ INSTALLED_APPS = [
     #third-party
     'rest_framework',
     'rest_framework_simplejwt',
-    'corsheaders'
+    'corsheaders',
+    'django_celery_results',
+    # 'django_celery_beat'
+    
 ]
 
 MIDDLEWARE = [
@@ -174,3 +180,23 @@ SIMPLE_JWT = {
     'TOKEN_TYPE_CLAIM': 'token_type',
 }
  
+ 
+#  # Use Redis as the message broker
+# CELERY_BROKER_URL = 'redis://localhost:6379'
+
+# # Use Redis as the result backend
+# CELERY_RESULT_BACKEND = 'django-db'
+
+# # Ensure that Celery knows about the Django app config
+# CELERY_ACCEPT_CONTENT = ['application/json']
+# CELERY_TASK_SERIALIZER = 'json'
+# CELERY_RESULT_SERIALIZER = 'json'
+
+# TIME_ZONE = 'Africa/Algiers' 
+
+CELERY_BEAT_SCHEDULE = {
+    'check-ticket-deadlines': {
+        'task': 'tickets.tasks.check_ticket_deadlines',
+        'schedule': crontab(minute=0, hour=0),  # Run daily at midnight
+    },
+}

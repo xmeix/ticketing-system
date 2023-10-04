@@ -3,11 +3,13 @@ from django.utils.translation import gettext_lazy as _
 # from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager, User
 from authentication.models import User
 # Create your models here.
-class Ticket(models.Model):
-    class EtatTicket(models.TextChoices):
+class EtatTicket(models.TextChoices):
         OUVERT = _('OUVERT')
         ENCOURS = _("ENCOURS")
         RESOLU = _("RESOLU")
+        EXPIRE = _("EXPIRE")
+class Ticket(models.Model):
+    
         
     objet= models.CharField(max_length=100)
     description= models.TextField()
@@ -16,7 +18,10 @@ class Ticket(models.Model):
     afr = models.ForeignKey(User, on_delete=models.SET_NULL,null=True,blank=True,related_name='assis_fr')   
     updatedAt = models.DateTimeField(auto_now=True) #updated at
     createdAt =models.DateTimeField(auto_now_add=True) #created at
+    deadline = models.DateTimeField(null=True, blank=True)  # Define the deadline field as per your needs
     
+    REQUIRED_FIELDS = ["objet", "description"]
+
     
     def __str__(self):
         return self.objet

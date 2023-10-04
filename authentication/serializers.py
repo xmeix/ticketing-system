@@ -24,7 +24,7 @@ class UserLoginSerializer(serializers.Serializer):
         user = authenticate(request=self.context.get('request'), email=email, password=password)
 
         if user is None:
-            raise serializers.ValidationError({"detail": "Invalid login credentials"})
+            raise serializers.ValidationError({"detail": "Identifiants incorrects"})
 
         return {'user': user}
 

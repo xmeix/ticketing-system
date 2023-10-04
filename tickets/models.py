@@ -19,7 +19,8 @@ class Ticket(models.Model):
     updatedAt = models.DateTimeField(auto_now=True) #updated at
     createdAt =models.DateTimeField(auto_now_add=True) #created at
     deadline = models.DateTimeField(null=True, blank=True)  # Define the deadline field as per your needs
-    
+    piecesjointes = models.FileField(upload_to='ticket_attachments/', blank=True, null=True)
+
     REQUIRED_FIELDS = ["objet", "description"]
 
     

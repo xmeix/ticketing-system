@@ -12,7 +12,6 @@
   --dark-gray: #a8a6a6;
   --v-dark-gray: #727272;
   --v-light-gray: #f7f4f4;
- 
 }
 
 body {
@@ -31,6 +30,10 @@ body {
 button,
 a {
   cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.97;
 }
 
 /* Style the select element */
@@ -62,8 +65,6 @@ select option {
 
 select option:hover {
 }
-
- 
 
 *,
 *:before,

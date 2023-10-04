@@ -5,7 +5,7 @@ const Navbar = () => {
       <div className="nav-title">TicketTrac</div>
       <div className="nav-params flex-row align-center">
         <div className="nav-user">#boualouache lamia</div>
-        <button>logout</button>
+        <button>déconnexion</button>
       </div>
     </div>
   );

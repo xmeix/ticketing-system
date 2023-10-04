@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     #own
-    # 'tickets',
+    'tickets',
     'authentication',
     
     #third-party

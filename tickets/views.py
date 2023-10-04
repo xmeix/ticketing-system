@@ -33,21 +33,7 @@ def get_all_reponses(request):
 
 
 
-
-# don't think ill need this
-# @api_view(['GET'])
-# @authentication_classes([SessionAuthentication, TokenAuthentication])
-# @permission_classes([IsAuthenticated])
-# def get_ticket(request, id):
-    
-#     try:
-#         ticket = Ticket.objects.get(id=id)
-#     except Ticket.DoesNotExist:
-#         return Response({"error": "Ticket non trouvé"}, status=status.HTTP_404_NOT_FOUND)
-    
-#     serializer = TicketSerializer(ticket)
-#     return Response(serializer.data, status=status.HTTP_200_OK)  
-
+ 
 
 
 @api_view(['POST'])
@@ -135,8 +121,4 @@ def update_ticket(request, id):
 
 
 
-# @api_view(['DELETE'])
-# def delete_ticket(request, id):
-#     ticket = get_object_or_404(Ticket, id=id)
-#     ticket.delete()
-#     return JsonResponse({'message': 'Ticket deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
+ 

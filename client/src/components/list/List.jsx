@@ -19,6 +19,7 @@ import NoRecords from "../noRecords/NoRecords";
 import ListParams from "../listParams/ListParams";
 import Ticket from "../ticket/Ticket";
 import usePopup from "../../hooks/usePopup";
+import { useSelector } from "react-redux";
 const useStyles = makeStyles({
   table: {
     "& .MuiPaper-root, & .MuiTableContainer-root": {
@@ -171,7 +172,7 @@ const data = [
 ];
 const List = () => {
   const classes = useStyles();
-  const role = "ADZ";
+  const { user } = useSelector((state) => state.auth);
   const [filter, setFilter] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
@@ -258,7 +259,7 @@ const List = () => {
                 créé a
               </TableCell>
               <TableCell colSpan={2} className={classes.tableCell}>
-                {role === "ADZ" ? "créé par" : "pris par"}
+                {user.role === "ADZ" ? "créé par" : "pris par"}
               </TableCell>
               <TableCell
                 colSpan={2}
@@ -274,8 +275,8 @@ const List = () => {
               <NoRecords cols={4} />
             ) : (
               <>
-                {paginatedData.map((ticket) => (
-                  <ListItem ticket={ticket} openPopup={openPopup} />
+                {paginatedData.map((ticket, i) => (
+                  <ListItem key={i} ticket={ticket} openPopup={openPopup} />
                 ))}
               </>
             )}

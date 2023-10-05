@@ -1,10 +1,10 @@
 import "./ListParams.css";
 import { useState } from "react";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import { useSelector } from "react-redux";
 
 const ListParams = ({ setFilter }) => {
-  const [role, setRole] = useState("AFR");
-
+  const { user } = useSelector((state) => state.auth);
   const etats = ["RESOLU", "ENCOURS", "OUVERT"];
   return (
     <div className="list-params  flex-row justify-between align-center">
@@ -18,13 +18,21 @@ const ListParams = ({ setFilter }) => {
           id="etat"
           onChange={(e) => setFilter(e.target.value)}
         >
-          {etats.map((etat) => (
-            <option value={etat}>{etat}</option>
+          {etats.map((etat, i) => (
+            <option key={i} value={etat}>
+              {etat}
+            </option>
           ))}
         </select>
       </div>
-      {role === "AFR" && (
-        <button>
+      {user.role === "ADM" && (
+        <button className="addas">
+          ajouter assistante
+          {/* <AddRoundedIcon className="btn-icon"/> */}
+        </button>
+      )}
+      {user.role !== "ADZ" && (
+        <button className="add-ticket">
           nouveau ticket
           {/* <AddRoundedIcon className="btn-icon"/> */}
         </button>

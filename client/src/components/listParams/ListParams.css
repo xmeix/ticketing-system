@@ -18,7 +18,8 @@
   color: var(--dark-gray);
 }
 
-.list-params button {
+.list-params .addas,
+.list-params .add-ticket {
   display: grid;
   place-content: center;
   padding: 0.5em;
@@ -27,9 +28,16 @@
   font-weight: 600;
   font-size: 12px;
 
+  border: none;
+  border-radius: 3px;
+}
+
+.list-params .add-ticket {
   background-color: var(--blue);
   color: var(--white);
-
+}
+.list-params .addas {
+  background-color: var(--white);
+  color: var(--blue);
   border: solid 2px var(--blue);
-  border-radius: 3px;
 }

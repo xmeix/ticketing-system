@@ -1,15 +1,26 @@
 import { useEffect, useRef, useState } from "react";
 import "./LoginPage.css";
+import toast, { Toaster } from "react-hot-toast";
 import Input from "./input/Input";
 import kpmg from "./../../assets/kpmg.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../store/apiCalls/auth";
+
 const LoginPage = () => {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
+  const dispatch = useDispatch();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
+
+    if (email.trim() === "" || password.trim() === "") {
+      toast.error("Champs invalides.");
+    } else {
+      dispatch(login({ email, password }));
+    }
   };
   const inputs = [
     {
@@ -20,7 +31,7 @@ const LoginPage = () => {
       inputRef: emailRef,
     },
     {
-      label: "Password *",
+      label: "Mot de passe *",
       name: "password",
       type: "password",
       placeholder: "ex: @password123",
@@ -55,6 +66,7 @@ const LoginPage = () => {
           </button>
         </form>
       </div>
+      <Toaster position="top-center" reverseOrder={false} />
     </div>
   );
 };

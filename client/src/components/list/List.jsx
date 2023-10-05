@@ -61,78 +61,120 @@ const useStyles = makeStyles({
     },
   },
 });
-
-const List = () => {
-  const classes = useStyles();
-  const ticket = {
+const data = [
+  {
     objet: "First issue",
     description: "lorem ipsum delorum set amet lorem ipsum delorum set amet ",
     etat: "OUVERT",
     adz: "assis dz",
     afr: "assis fr",
-    createdAt: "13-12-2023",
-  };
-
+    createdAt:
+      new Date().getDate() +
+      "-" +
+      (new Date().getMonth() + 1) +
+      "-" +
+      new Date().getFullYear(),
+  },
+  {
+    objet: "First issue",
+    description: "lorem ipsum delorum set amet lorem ipsum delorum set amet ",
+    etat: "ENCOURS",
+    adz: "assis dz",
+    afr: "assis fr",
+    createdAt:
+      new Date().getDate() +
+      "-" +
+      (new Date().getMonth() + 1) +
+      "-" +
+      new Date().getFullYear(),
+  },
+  {
+    objet: "First issue",
+    description: "lorem ipsum delorum set amet lorem ipsum delorum set amet ",
+    etat: "RESOLU",
+    adz: "assis dz",
+    afr: "assis fr",
+    createdAt:
+      new Date().getDate() +
+      "-" +
+      (new Date().getMonth() + 1) +
+      "-" +
+      new Date().getFullYear(),
+  },
+  {
+    objet: "First issue",
+    description: "lorem ipsum delorum set amet lorem ipsum delorum set amet ",
+    etat: "OUVERT",
+    adz: "assis dz",
+    afr: "assis fr",
+    createdAt:
+      new Date().getDate() +
+      "-" +
+      (new Date().getMonth() + 1) +
+      "-" +
+      new Date().getFullYear(),
+  },
+  {
+    objet: "First issue",
+    description: "lorem ipsum delorum set amet lorem ipsum delorum set amet ",
+    etat: "OUVERT",
+    adz: "assis dz",
+    afr: "assis fr",
+    createdAt:
+      new Date().getDate() +
+      "-" +
+      (new Date().getMonth() + 1) +
+      "-" +
+      new Date().getFullYear(),
+  },
+  {
+    objet: "First issue",
+    description: "lorem ipsum delorum set amet lorem ipsum delorum set amet ",
+    etat: "ENCOURS",
+    adz: "assis dz",
+    afr: "assis fr",
+    createdAt:
+      new Date().getDate() +
+      "-" +
+      (new Date().getMonth() + 1) +
+      "-" +
+      new Date().getFullYear(),
+  },
+  {
+    objet: "First issue",
+    description: "lorem ipsum delorum set amet lorem ipsum delorum set amet ",
+    etat: "RESOLU",
+    adz: "assis dz",
+    afr: "assis fr",
+    createdAt:
+      new Date().getDate() +
+      "-" +
+      (new Date().getMonth() + 1) +
+      "-" +
+      new Date().getFullYear(),
+  },
+  {
+    objet: "First issue",
+    description: "lorem ipsum delorum set amet lorem ipsum delorum set amet ",
+    etat: "OUVERT",
+    adz: "assis dz",
+    afr: "assis fr",
+    createdAt:
+      new Date().getDate() +
+      "-" +
+      (new Date().getMonth() + 1) +
+      "-" +
+      new Date().getFullYear(),
+  },
+];
+const List = () => {
+  const classes = useStyles();
   const role = "ADZ";
-  const [filter, setFilter] = useState("OUVERT");
+  const [filter, setFilter] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
-  const [filteredTickets, setFilteredTickets] = useState([]);
-  const data = [
-    {
-      objet: "First issue",
-      description: "lorem ipsum delorum set amet lorem ipsum delorum set amet ",
-      etat: "OUVERT",
-      adz: "assis dz",
-      afr: "assis fr",
-      createdAt:
-        new Date().getDate() +
-        "-" +
-        (new Date().getMonth() + 1) +
-        "-" +
-        new Date().getFullYear(),
-    },
-    {
-      objet: "First issue",
-      description: "lorem ipsum delorum set amet lorem ipsum delorum set amet ",
-      etat: "ENCOURS",
-      adz: "assis dz",
-      afr: "assis fr",
-      createdAt:
-        new Date().getDate() +
-        "-" +
-        (new Date().getMonth() + 1) +
-        "-" +
-        new Date().getFullYear(),
-    },
-    {
-      objet: "First issue",
-      description: "lorem ipsum delorum set amet lorem ipsum delorum set amet ",
-      etat: "RESOLU",
-      adz: "assis dz",
-      afr: "assis fr",
-      createdAt:
-        new Date().getDate() +
-        "-" +
-        (new Date().getMonth() + 1) +
-        "-" +
-        new Date().getFullYear(),
-    },
-    {
-      objet: "First issue",
-      description: "lorem ipsum delorum set amet lorem ipsum delorum set amet ",
-      etat: "OUVERT",
-      adz: "assis dz",
-      afr: "assis fr",
-      createdAt:
-        new Date().getDate() +
-        "-" +
-        (new Date().getMonth() + 1) +
-        "-" +
-        new Date().getFullYear(),
-    },
-  ];
-  
+  const [filteredTickets, setFilteredTickets] = useState(data);
+
   useEffect(() => {
     if (filter.trim() !== "") {
       const filtered = data.filter((item) =>
@@ -146,34 +188,34 @@ const List = () => {
 
   /** HANDLE  SORT ___________________________________________________*/
 
-  const [sortOrder, setSortOrder] = useState({
-    column: "createdAt",
-    direction: "desc",
-  });
+  // const [sortOrder, setSortOrder] = useState({
+  //   column: "createdAt",
+  //   direction: "desc",
+  // });
 
-  const sortedData = useMemo(() => {
-    const sorted = [...filteredTickets].sort((a, b) => {
-      const column = sortOrder.column;
-      const direction = sortOrder.direction === "asc" ? 1 : -1;
-      if (a[column] < b[column]) {
-        return -1 * direction;
-      } else if (a[column] > b[column]) {
-        return 1 * direction;
-      } else {
-        return 0;
-      }
-    });
-    return sorted;
-  }, [filteredTickets, sortOrder]);
+  // const sortedData = useMemo(() => {
+  //   const sorted = [...filteredTickets].sort((a, b) => {
+  //     const column = sortOrder.column;
+  //     const direction = sortOrder.direction === "asc" ? 1 : -1;
+  //     if (a[column] < b[column]) {
+  //       return -1 * direction;
+  //     } else if (a[column] > b[column]) {
+  //       return 1 * direction;
+  //     } else {
+  //       return 0;
+  //     }
+  //   });
+  //   return sorted;
+  // }, [filteredTickets, sortOrder]);
 
-  const handleSort = () => {
-    const isAsc = sortOrder.direction === "asc";
+  // const handleSort = () => {
+  //   const isAsc = sortOrder.direction === "asc";
 
-    setSortOrder({
-      column: sortOrder.column,
-      direction: isAsc ? "desc" : "asc",
-    });
-  };
+  //   setSortOrder({
+  //     column: sortOrder.column,
+  //     direction: isAsc ? "desc" : "asc",
+  //   });
+  // };
   /**_______________________________________________ */
 
   const handleChangePage = (event, newPage) => {
@@ -185,7 +227,7 @@ const List = () => {
     setPage(0);
   };
 
-  const paginatedData = sortedData.slice(
+  const paginatedData = filteredTickets.slice(
     page * rowsPerPage,
     page * rowsPerPage + rowsPerPage
   );
@@ -228,7 +270,7 @@ const List = () => {
               <NoRecords cols={4} />
             ) : (
               <>
-                {filteredTickets.map((ticket) => (
+                {paginatedData.map((ticket) => (
                   <ListItem ticket={ticket} />
                 ))}
               </>

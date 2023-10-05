@@ -1,8 +1,11 @@
 import "./Home.css";
+import List from "../../components/list/List";
+import ListHeader from "../../components/listHeader/ListHeader";
 const Home = () => {
   return (
     <div className="home">
-      <h1>Home page</h1>
+      <ListHeader />
+      <List />
     </div>
   );
 };

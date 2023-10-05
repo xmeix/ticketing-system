@@ -2,7 +2,7 @@ import "./ListParams.css";
 import { useState } from "react";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 
-const ListParams = () => {
+const ListParams = ({ setFilter }) => {
   const [role, setRole] = useState("AFR");
 
   const etats = ["RESOLU", "ENCOURS", "OUVERT"];
@@ -12,7 +12,12 @@ const ListParams = () => {
         <label className="input-sticky-label" htmlFor="etat">
           filtrer par etat
         </label>
-        <select className="form-control" name="etat" id="etat">
+        <select
+          className="form-control"
+          name="etat"
+          id="etat"
+          onChange={(e) => setFilter(e.target.value)}
+        >
           {etats.map((etat) => (
             <option value={etat}>{etat}</option>
           ))}

@@ -14,7 +14,7 @@ import {
   makeStyles,
   Tooltip,
 } from "@material-ui/core";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import NoRecords from "../noRecords/NoRecords";
 import ListParams from "../listParams/ListParams";
 const useStyles = makeStyles({
@@ -74,108 +74,11 @@ const List = () => {
   };
 
   const role = "ADZ";
+  const [filter, setFilter] = useState("OUVERT");
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
-
-  // const filteredData = useMemo(() => {
-  //   const hasFilter = filter || filterOption;
-  //   if (!hasFilter) {
-  //     return data;
-  //   }
-  //   const trimmedFilter = filter.trim(); // remove leading/trailing spaces
-  //   return data.filter((item) => {
-  //     let result = true;
-  //     if (trimmedFilter) {
-  //       // use trimmed filter value
-  //       result = columns.some((column) => {
-  //         if (!item[column.id]) {
-  //           return false;
-  //         }
-  //         let cellValue;
-  //         if (
-  //           item[column.id] === "createdAt" ||
-  //           item[column.id] === "tDateDeb" ||
-  //           item[column.id] === "tDateRet"
-  //         ) {
-  //           cellValue = item[column.id];
-  //         } else {
-  //           cellValue = item[column.id].toString().toLowerCase();
-  //         }
-  //         const filterValue = trimmedFilter.toLowerCase();
-  //         return (
-  //           cellValue.includes(filterValue) ||
-  //           (item.prenom + " " + item.nom)
-  //             .toString()
-  //             .toLowerCase()
-  //             .includes(filterValue) ||
-  //           (item.nom + " " + item.prenom)
-  //             .toString()
-  //             .toLowerCase()
-  //             .includes(filterValue) ||
-  //           ((column.id === "idEmetteur" ||
-  //             column.id === "idEmploye" ||
-  //             column.id === "createdBy") &&
-  //             (item[column.id].nom
-  //               .toString()
-  //               .toLowerCase()
-  //               .includes(filterValue) ||
-  //               item[column.id].prenom
-  //                 .toString()
-  //                 .toLowerCase()
-  //                 .includes(filterValue) ||
-  //               (item[column.id].prenom + " " + item[column.id].nom)
-  //                 .toString()
-  //                 .toLowerCase()
-  //                 .includes(filterValue) ||
-  //               (item[column.id].nom + " " + item[column.id].prenom)
-  //                 .toString()
-  //                 .toLowerCase()
-  //                 .includes(filterValue) ||
-  //               item[column.id].structure
-  //                 .toString()
-  //                 .toLowerCase()
-  //                 .includes(filterValue))) ||
-  //           item["mission"]?.uid
-  //             .toString()
-  //             .toLowerCase()
-  //             .includes(filterValue) ||
-  //           item["idMission"]?.uid
-  //             .toString()
-  //             .toLowerCase()
-  //             .includes(filterValue) ||
-  //           item["mission"]?.objetMission
-  //             .toString()
-  //             .toLowerCase()
-  //             .includes(filterValue) ||
-  //           item["employe"]?.nom
-  //             .toString()
-  //             .toLowerCase()
-  //             .includes(filterValue) ||
-  //           item["employe"]?.prenom
-  //             .toString()
-  //             .toLowerCase()
-  //             .includes(filterValue) ||
-  //           (item["employe"]?.prenom + " " + item["employe"]?.nom)
-  //             .toString()
-  //             .toLowerCase()
-  //             .includes(filterValue) ||
-  //           (item["employe"]?.nom + " " + item["employe"]?.prenom)
-  //             .toString()
-  //             .toLowerCase()
-  //             .includes(filterValue) ||
-  //           item["uid"]?.toString().toLowerCase().includes(filterValue)
-  //         );
-  //       });
-  //     }
-  //     if (filterOption) {
-  //       result = result && item?.etat === filterOption.toString();
-  //     }
-
-  //     return result;
-  //   });
-  // }, [data, filter, filterOption]);
-
-  const filteredData = [
+  const [filteredTickets, setFilteredTickets] = useState([]);
+  const data = [
     {
       objet: "First issue",
       description: "lorem ipsum delorum set amet lorem ipsum delorum set amet ",
@@ -229,14 +132,27 @@ const List = () => {
         new Date().getFullYear(),
     },
   ];
+  
+  useEffect(() => {
+    if (filter.trim() !== "") {
+      const filtered = data.filter((item) =>
+        item.etat.toLowerCase().includes(filter.toLowerCase())
+      );
+      setFilteredTickets(filtered);
+    } else {
+      setFilteredTickets(data);
+    }
+  }, [filter, data]);
+
   /** HANDLE  SORT ___________________________________________________*/
+
   const [sortOrder, setSortOrder] = useState({
     column: "createdAt",
     direction: "desc",
   });
 
   const sortedData = useMemo(() => {
-    const sorted = [...filteredData].sort((a, b) => {
+    const sorted = [...filteredTickets].sort((a, b) => {
       const column = sortOrder.column;
       const direction = sortOrder.direction === "asc" ? 1 : -1;
       if (a[column] < b[column]) {
@@ -248,7 +164,7 @@ const List = () => {
       }
     });
     return sorted;
-  }, [filteredData, sortOrder]);
+  }, [filteredTickets, sortOrder]);
 
   const handleSort = () => {
     const isAsc = sortOrder.direction === "asc";
@@ -275,7 +191,7 @@ const List = () => {
   );
   return (
     <div className="list">
-      <ListParams />
+      <ListParams setFilter={setFilter} />
 
       <TableContainer
         component={Paper}
@@ -308,11 +224,11 @@ const List = () => {
             </TableRow>
           </TableHead>
           <TableBody className={classes.tableBody}>
-            {filteredData.length === 0 ? (
+            {filteredTickets.length === 0 ? (
               <NoRecords cols={4} />
             ) : (
               <>
-                {filteredData.map((ticket) => (
+                {filteredTickets.map((ticket) => (
                   <ListItem ticket={ticket} />
                 ))}
               </>
@@ -324,7 +240,7 @@ const List = () => {
         className="pagination"
         rowsPerPageOptions={[5, 10, 25]}
         component="div"
-        count={filteredData.length}
+        count={filteredTickets.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

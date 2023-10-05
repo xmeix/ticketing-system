@@ -1,10 +1,10 @@
 import "./TicketHeader.css";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-const TicketHeader = () => {
+const TicketHeader = ({ closePopup, setReply }) => {
   return (
     <div className="ticket-header">
-      <CloseRoundedIcon onClick={() => closePopup()} />
-      <button>répondre</button>
+      <CloseRoundedIcon className="icon-btn" onClick={() => closePopup()} />
+      <button onClick={() => setReply(true)}>répondre</button>
     </div>
   );
 };

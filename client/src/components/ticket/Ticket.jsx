@@ -6,11 +6,12 @@ import TicketReply from "./ticketReply/TicketReply";
 
 const Ticket = ({ ticket, closePopup }) => {
   const [reply, setReply] = useState(false);
+  const [role, setRole] = useState("ADZ");
   return (
     <div className="ticket-popup">
-      <TicketHeader />
+      <TicketHeader closePopup={closePopup} setReply={setReply} />
       <TicketContent ticket={ticket} />
-      <TicketReply />
+      {reply && role === "ADZ" && <TicketReply />}
     </div>
   );
 };

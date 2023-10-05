@@ -6,10 +6,10 @@ import Navbar from "./components/Navbar/Navbar";
 import { useState } from "react";
 
 function App() {
-  const [isLoggedIn, setisLoggedIn] = useState(true);
+  const [isLoggedIn, setisLoggedIn] = useState(false);
   return (
     <>
-      <Navbar />
+      {isLoggedIn && <Navbar />}
       <Routes>
         <Route path="*" element={isLoggedIn ? <Home /> : <LoginPage />} />
       </Routes>

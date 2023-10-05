@@ -25,12 +25,7 @@ const ListParams = ({ setFilter }) => {
           ))}
         </select>
       </div>
-      {user.role === "ADM" && (
-        <button className="addas">
-          ajouter assistante
-          {/* <AddRoundedIcon className="btn-icon"/> */}
-        </button>
-      )}
+
       {user.role !== "ADZ" && (
         <button className="add-ticket">
           nouveau ticket

@@ -9,6 +9,7 @@ import RegisterPage from "./pages/admin/RegisterPage";
 
 function App() {
   const { isLoggedIn, user } = useSelector((state) => state.auth);
+
   return (
     <>
       {isLoggedIn && <Navbar />}

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { register } from "../../store/apiCalls/auth";
-import Input from "../loginPage/input/Input";
+import Input from "../../components/input/Input";
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
@@ -14,19 +14,23 @@ const RegisterPage = () => {
   const firstNameRef = useRef(null);
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
+  const roleRef = useRef(null);
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    console.log("registering....");
     const lastName = lastNameRef.current.value;
     const firstName = firstNameRef.current.value;
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
-    setErrorMessage("");
+    const role = roleRef.current.value;
+
     if (
       lastName.trim() === "" ||
       firstName.trim() === "" ||
       email.trim() === "" ||
-      password.trim() === ""
+      password.trim() === "" ||
+      role.trim() === ""
     )
       toast.error("Champs invalides.");
     else {
@@ -38,6 +42,7 @@ const RegisterPage = () => {
           first_name: firstName,
           email,
           password,
+          role,
         })
       );
       toast.success("Inscription réussie");
@@ -67,11 +72,18 @@ const RegisterPage = () => {
       inputRef: emailRef,
     },
     {
-      label: "Password *",
+      label: "Mot de passe *",
       name: "password",
       type: "password",
       placeholder: "ex: @password123",
       inputRef: passwordRef,
+    },
+    {
+      label: "Rôle *",
+      name: "role",
+      type: "text",
+      placeholder: "ex: ADZ",
+      inputRef: roleRef,
     },
   ];
 
@@ -79,7 +91,10 @@ const RegisterPage = () => {
     <div className="login">
       <div className="form-container">
         <div className="login-header">
-          <div className="login-title">TicketTrac.</div>
+          <div className="login-title">Inscription</div>
+          <div className="login-description">
+            Vous pouvez inscrire d'autres assistantes
+          </div>
         </div>
         <form onSubmit={handleRegister}>
           {inputs.map((el, i) => (
@@ -93,11 +108,11 @@ const RegisterPage = () => {
             />
           ))}
 
-          <button type="submit" className="form-btn" disabled={isLoading}>
-            Register
+          <button type="submit" className="form-btn" disabled={false}>
+            Enregistrer
           </button>
         </form>
-      </div>{" "}
+      </div>
       <Toaster position="top-center" reverseOrder={false} />
     </div>
   );

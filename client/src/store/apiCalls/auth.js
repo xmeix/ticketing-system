@@ -22,12 +22,11 @@ export const register = createAsyncThunk(
   async (body, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-      const res = await apiService.user.post("api/auth/register/", body);
+      const res = await apiService.public.post("api/auth/register/", body);
       return res.data;
     } catch (error) {
       console.log(error.response.data.error);
       toast.error(error.response.data.error);
-
       return rejectWithValue(error.response.data.error);
     }
   }

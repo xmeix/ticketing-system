@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import "./LoginPage.css";
 import toast, { Toaster } from "react-hot-toast";
-import Input from "./input/Input";
 import kpmg from "./../../assets/kpmg.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../store/apiCalls/auth";
+import Input from "../../components/input/Input";
 
 const LoginPage = () => {
   const emailRef = useRef(null);

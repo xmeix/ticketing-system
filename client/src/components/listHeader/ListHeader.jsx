@@ -9,8 +9,8 @@ const ListHeader = () => {
       <h2 className="list-header-title">Les tickets</h2>
       {role === "AFR" && (
         <button>
-          {/* ajouter ticket */}
-          <AddRoundedIcon className="btn-icon"/>
+          ajouter ticket
+          {/* <AddRoundedIcon className="btn-icon"/> */}
         </button>
       )}
     </div>

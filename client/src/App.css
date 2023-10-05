@@ -1,4 +1,3 @@
-
 .flex-column {
   display: flex;
   flex-direction: column;
@@ -17,6 +16,10 @@
 .justify-between {
   justify-content: space-between;
 }
-.btn-icon{
-  
+.icon-btn {
+  font-size: 20px !important;
+  cursor: pointer;
+}
+.icon-btn:hover {
+  color: var(--blue);
 }

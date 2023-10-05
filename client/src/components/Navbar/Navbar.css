@@ -18,12 +18,3 @@
 .navbar .nav-params {
   gap: 1em;
 }
-.navbar .nav-params button {
-  border: none;
-  background-color: var(--blue);
-  color: var(--white);
-  padding: 0.5em 1em;
-  border-radius: 2px;
-  font-size: 13px;
-  font-weight: 500;
-}

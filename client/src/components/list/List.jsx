@@ -16,6 +16,7 @@ import {
 } from "@material-ui/core";
 import { useMemo, useState } from "react";
 import NoRecords from "../noRecords/NoRecords";
+import ListParams from "../listParams/ListParams";
 const useStyles = makeStyles({
   table: {
     "& .MuiPaper-root, & .MuiTableContainer-root": {
@@ -50,35 +51,29 @@ const useStyles = makeStyles({
     border: "1px solid #e0e0e0",
   },
   tableCell: {
-    flexBasis: "30%",
-    padding: "10px",
     border: "1px solid #e0e0e0",
-    fontSize: 13,
     overflow: "hidden",
     textOverflow: "ellipsis",
   },
   tableRow: {
     "&:nth-of-type(even)": {
-      background: "white !important",
+      background: "var(--white) !important",
     },
-  },
-  tableBody: {
-    fontSize: 11,
-  },
-  title: {
-    fontWeight: 700,
-    fontSize: "18px",
-    marginBottom: "10px",
-    textTransform: "uppercase",
-    letterSpacing: "1px",
-    color: "var(--gray)",
-    paddingLeft: "1em",
-    borderLeft: "solid 4px var(--gray)",
   },
 });
 
 const List = () => {
   const classes = useStyles();
+  const ticket = {
+    objet: "First issue",
+    description: "lorem ipsum delorum set amet lorem ipsum delorum set amet ",
+    etat: "OUVERT",
+    adz: "assis dz",
+    afr: "assis fr",
+    createdAt: "13-12-2023",
+  };
+
+  const role = "ADZ";
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
 
@@ -180,7 +175,60 @@ const List = () => {
   //   });
   // }, [data, filter, filterOption]);
 
-  const filteredData = [];
+  const filteredData = [
+    {
+      objet: "First issue",
+      description: "lorem ipsum delorum set amet lorem ipsum delorum set amet ",
+      etat: "OUVERT",
+      adz: "assis dz",
+      afr: "assis fr",
+      createdAt:
+        new Date().getDate() +
+        "-" +
+        (new Date().getMonth() + 1) +
+        "-" +
+        new Date().getFullYear(),
+    },
+    {
+      objet: "First issue",
+      description: "lorem ipsum delorum set amet lorem ipsum delorum set amet ",
+      etat: "ENCOURS",
+      adz: "assis dz",
+      afr: "assis fr",
+      createdAt:
+        new Date().getDate() +
+        "-" +
+        (new Date().getMonth() + 1) +
+        "-" +
+        new Date().getFullYear(),
+    },
+    {
+      objet: "First issue",
+      description: "lorem ipsum delorum set amet lorem ipsum delorum set amet ",
+      etat: "RESOLU",
+      adz: "assis dz",
+      afr: "assis fr",
+      createdAt:
+        new Date().getDate() +
+        "-" +
+        (new Date().getMonth() + 1) +
+        "-" +
+        new Date().getFullYear(),
+    },
+    {
+      objet: "First issue",
+      description: "lorem ipsum delorum set amet lorem ipsum delorum set amet ",
+      etat: "OUVERT",
+      adz: "assis dz",
+      afr: "assis fr",
+      createdAt:
+        new Date().getDate() +
+        "-" +
+        (new Date().getMonth() + 1) +
+        "-" +
+        new Date().getFullYear(),
+    },
+  ];
   /** HANDLE  SORT ___________________________________________________*/
   const [sortOrder, setSortOrder] = useState({
     column: "createdAt",
@@ -227,27 +275,48 @@ const List = () => {
   );
   return (
     <div className="list">
-      <TableContainer component={Paper} aria-label="table">
+      <ListParams />
+
+      <TableContainer
+        component={Paper}
+        aria-label="table"
+        className="table-container"
+      >
         <Table className={classes.table} stickyHeader size="small">
           <TableHead className={classes.tableHeader}>
             <TableRow className={classes.tableRow}>
-              <TableCell align="center" className={classes.tableCell}>
-                objet
-              </TableCell>
-              <TableCell align="center" className={classes.tableCell}>
-                créé a
-              </TableCell>
-              <TableCell align="center" className={classes.tableCell}>
-                agent
+              <TableCell colSpan={3} className={classes.tableCell}>
+                ticket
               </TableCell>
               <TableCell
+                colSpan={1}
+                align="center"
+                className={`tdate ${classes.tableCell}`}
+              >
+                créé a
+              </TableCell>
+              <TableCell colSpan={2} className={classes.tableCell}>
+                {role === "ADZ" ? "créé par" : "pris par"}
+              </TableCell>
+              <TableCell
+                colSpan={2}
                 align="center"
                 className={classes.tableCell}
-              ></TableCell>
+              >
+                etat
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody className={classes.tableBody}>
-            {filteredData.length === 0 ? <NoRecords cols={4} /> : <ListItem />}
+            {filteredData.length === 0 ? (
+              <NoRecords cols={4} />
+            ) : (
+              <>
+                {filteredData.map((ticket) => (
+                  <ListItem ticket={ticket} />
+                ))}
+              </>
+            )}
           </TableBody>
         </Table>
       </TableContainer>

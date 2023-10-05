@@ -3,6 +3,12 @@
   margin: 0 10%;
 }
 
+.list .table-container {
+  box-shadow: 0 0 1px 1px rgb(0, 0, 0, 0.1) !important;
+  height: 51vh;
+  font-family: "Montserrat", sans-serif !important;
+}
+
 @media screen and (max-width: 900px) {
   .list {
     margin: 0 5%;

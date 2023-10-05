@@ -1,90 +1,76 @@
 .list-item {
-  gap: 0.5em;
-  padding: 1em 1.5em;
-  background-color: #f3ecec59;
-  border-radius: 5px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  overflow: hidden;
 }
 
 .list-item:hover {
-  opacity: 0.95;
+  opacity: 0.95 !important;
 }
 
-.list-item .section-title {
-  font-weight: 600;
-  font-size: 10px;
-  color: var(--gray);
-}
-
-.creator-details,
-.ticket-details,
-.agent {
+.table-cell {
+  gap: 0.3em;
   overflow: hidden;
 }
 
-.creator-details .name,
-.agent .name {
+.table-cell .date {
+  font-size: 11px;
+  /* font-weight: 500; */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+}
+.table-cell .objet {
   font-weight: 700;
   font-size: 11px;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-transform: uppercase;
 }
 
-.list-item .email {
-  font-size: 11px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  /* color: var(--dark-gray); */
-}
-
-.ticket-details .object {
-  font-weight: bold;
+.table-cell .description {
   font-size: 12px;
-  /* color: var(--dark-gray); */
-}
-
-.ticket-details .description {
-  font-size: 12px;
-  /* color: var(--dark-gray); */
+  color: var(--dark-gray);
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
 }
-.item-action {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 0.3em;
-}
-
-.item-action button {
+.table-cell button {
   padding: 0.5em;
   border: solid 1px var(--light-gray);
   border-radius: 5px;
   font-weight: 500;
+  width: 100%;
+  margin: 0.5em 0;
 }
-.item-action .ticket-OUVERT,
-.item-action .ticket-ENCOURS,
-.item-action .ticket-RESOLU {
-  padding: 0.5em;
+
+.table-cell .ticket-OUVERT,
+.table-cell .ticket-ENCOURS,
+.table-cell .ticket-RESOLU {
+  padding: 0.7em;
   font-size: 10px;
   text-align: center;
   font-weight: 600;
   border-radius: 5px;
 }
-.item-action .ticket-OUVERT {
-  background-color: #28a745;
-  color: white;
+
+.table-cell .ticket-OUVERT {
+  background-color: #c4ebc4 !important;
+
+  color: var(--black);
 }
 
-.item-action .ticket-ENCOURS {
-  background-color: #dc3545;
-  color: white;
+.table-cell .ticket-ENCOURS {
+  background-color: #fdcc9b !important;
+
+  color: var(--black);
 }
 
-.item-action .ticket-RESOLU {
-  background-color: #ffc107;
-  color: #333;
+.table-cell .ticket-RESOLU {
+  background-color: #a3c7eb !important;
+  color: var(--black);
+}
+
+@media screen and (max-width: 900px) {
+  .tdate {
+    display: none !important;
+  }
 }

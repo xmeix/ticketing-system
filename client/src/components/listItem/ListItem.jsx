@@ -1,29 +1,43 @@
 import { useState } from "react";
 import "./ListItem.css";
-const ListItem = () => {
+import { TableCell, TableRow, makeStyles, Tooltip } from "@material-ui/core";
+const useStyles = makeStyles({
+  tableCell: {
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+  },
+});
+
+const ListItem = ({ ticket }) => {
+  const classes = useStyles();
   const [role, setrole] = useState("ADZ");
   const [etat, setEtat] = useState("OUVERT");
   return (
-    <div className="list-item flex-row justify-between">
-     
-      <div className="ticket-details">
-        <p className="section-title">ticket</p>
-        <p className="object">Object</p>
-        <p className="description">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Est,
-          blanditiis.
-        </p>
-      </div>
-      <div className="agent">
-        <p className="section-title">agent</p>
-        <p className="name">Boualouache lamia</p>
-        <p className="email">lamiaboualouache@gmail.com</p>
-      </div>
-      <div className="item-action">
+    <TableRow className={`list-item ${classes.tableRow}`}>
+      <TableCell colSpan={3} className={`table-cell ${classes.TableCell}`}>
+        <div className="objet">{ticket.objet}</div>
+        <div className="description">{ticket.description}</div>
+      </TableCell>
+      <TableCell
+        align="center"
+        colSpan={1}
+        className={`tdate table-cell ${classes.TableCell}`}
+      >
+        <p className="date">{ticket.createdAt}</p>
+      </TableCell>
+      <TableCell colSpan={2} className={`table-cell ${classes.TableCell}`}>
+        <p className="objet">Boualouache lamia</p>
+        <p className="description">lamiaboualouache@gmail.com</p>
+      </TableCell>
+      <TableCell
+        colSpan={2}
+        align="center"
+        className={`table-cell action ${classes.TableCell}`}
+      >
+        <div className={`ticket-${ticket.etat}`}>{ticket.etat}</div>{" "}
         {role === "ADZ" && <button>Prendre</button>}
-        <div className={`ticket-${etat}`}>{etat}</div>
-      </div>
-    </div>
+      </TableCell>
+    </TableRow>
   );
 };
 

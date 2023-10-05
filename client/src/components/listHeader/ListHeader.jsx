@@ -1,18 +1,9 @@
 import "./ListHeader.css";
-import { useState } from "react";
-import AddRoundedIcon from "@mui/icons-material/AddRounded";
-const ListHeader = () => {
-  const [role, setRole] = useState("AFR");
 
+const ListHeader = () => {
   return (
     <div className="list-header flex-row justify-between align-center">
-      <h2 className="list-header-title">Les tickets</h2>
-      {role === "AFR" && (
-        <button>
-          ajouter ticket
-          {/* <AddRoundedIcon className="btn-icon"/> */}
-        </button>
-      )}
+      <h2 className="list-header-title">liste de tickets</h2>
     </div>
   );
 };

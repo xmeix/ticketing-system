@@ -1,0 +1,10 @@
+.no-records {
+  font-family: var(--mont) !important;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-weight: 700 !important;
+  
+}

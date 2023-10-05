@@ -1,9 +1,5 @@
 .list-header {
   padding: 2em 10%;
-  /* position: fixed;
-  top: 4em;
-  right: 0;
-  left: 0; */
   background-color: var(--white);
 }
 

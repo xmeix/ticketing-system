@@ -5,11 +5,7 @@ const ListItem = () => {
   const [etat, setEtat] = useState("OUVERT");
   return (
     <div className="list-item flex-row justify-between">
-      <div className="creator-details">
-        <p className="section-title">créé par</p>
-        <p className="name">Boualouache lamia</p>
-        <p className="email">lamiaboualouache@gmail.com</p>
-      </div>
+     
       <div className="ticket-details">
         <p className="section-title">ticket</p>
         <p className="object">Object</p>

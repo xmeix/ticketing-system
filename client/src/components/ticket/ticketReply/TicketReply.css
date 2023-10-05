@@ -19,7 +19,8 @@
   padding: 1em 0.3em;
 }
 
-.ticket-reply textarea {
+.ticket-reply textarea,
+.ticket-reply input {
   width: 100%;
   padding: 10px;
   border: 1px solid var(--light-gray);
@@ -66,4 +67,11 @@
   border: solid 1px var(--light-gray);
   border-radius: 4px;
   cursor: pointer;
+}
+
+.ticket-reply .form-title {
+  font-size: 20px;
+  font-weight: 700;
+  padding: 0.5em 0;
+  text-transform: capitalize;
 }

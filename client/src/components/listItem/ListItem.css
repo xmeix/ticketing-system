@@ -43,32 +43,6 @@
   z-index: 99;
 }
 
-.table-cell .ticket-OUVERT,
-.table-cell .ticket-ENCOURS,
-.table-cell .ticket-RESOLU {
-  padding: 0.7em;
-  font-size: 10px;
-  text-align: center;
-  font-weight: 600;
-  border-radius: 5px;
-}
-
-.table-cell .ticket-OUVERT {
-  background-color: #c4ebc4 !important;
-
-  color: var(--black);
-}
-
-.table-cell .ticket-ENCOURS {
-  background-color: #fdcc9b !important;
-
-  color: var(--black);
-}
-
-.table-cell .ticket-RESOLU {
-  background-color: #a3c7eb !important;
-  color: var(--black);
-}
 
 @media screen and (max-width: 900px) {
   .tdate {

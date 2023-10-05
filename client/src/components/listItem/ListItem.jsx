@@ -15,7 +15,7 @@ const ListItem = ({ ticket, openPopup }) => {
   return (
     <TableRow className={`list-item ${classes.tableRow}`}>
       <TableCell
-        onClick={() => openPopup(ticket)}
+        onClick={() => openPopup(ticket, "ticket")}
         colSpan={3}
         className={`table-cell ${classes.TableCell}`}
       >
@@ -23,7 +23,7 @@ const ListItem = ({ ticket, openPopup }) => {
         <div className="description">{ticket.description}</div>
       </TableCell>
       <TableCell
-        onClick={() => openPopup(ticket)}
+        onClick={() => openPopup(ticket, "ticket")}
         align="center"
         colSpan={1}
         className={`tdate table-cell ${classes.TableCell}`}
@@ -31,7 +31,7 @@ const ListItem = ({ ticket, openPopup }) => {
         <p className="date">{ticket.createdAt}</p>
       </TableCell>
       <TableCell
-        onClick={() => openPopup(ticket)}
+        onClick={() => openPopup(ticket, "ticket")}
         colSpan={2}
         className={`table-cell ${classes.TableCell}`}
       >

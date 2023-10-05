@@ -4,9 +4,11 @@ import Ticket from "../components/ticket/Ticket";
 const usePopup = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [data, setData] = useState(null);
-  const openPopup = (data) => {
+  const [type, setType] = useState("ticket");
+  const openPopup = (data, type) => {
     setIsOpen(true);
     setData(data);
+    setType(type);
   };
 
   const closePopup = () => {
@@ -15,7 +17,9 @@ const usePopup = () => {
   };
 
   const Popup = () => {
-    return isOpen ? <Ticket ticket={data} closePopup={closePopup} /> : null;
+    return isOpen ? (
+      <Ticket ticket={data} closePopup={closePopup} type={type} />
+    ) : null;
   };
 
   return { openPopup, closePopup, Popup, isOpen };

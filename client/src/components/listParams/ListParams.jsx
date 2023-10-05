@@ -2,9 +2,11 @@ import "./ListParams.css";
 import { useState } from "react";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import { useSelector } from "react-redux";
+import usePopup from "../../hooks/usePopup";
 
 const ListParams = ({ setFilter }) => {
   const { user } = useSelector((state) => state.auth);
+  const { isOpen, openPopup, closePopup, Popup } = usePopup();
   const etats = ["RESOLU", "ENCOURS", "OUVERT"];
   return (
     <div className="list-params  flex-row justify-between align-center">
@@ -27,11 +29,17 @@ const ListParams = ({ setFilter }) => {
       </div>
 
       {user.role !== "ADZ" && (
-        <button className="add-ticket">
+        <button
+          className="add-ticket"
+          onClick={() => openPopup(null, "ticketForm")}
+        >
           nouveau ticket
           {/* <AddRoundedIcon className="btn-icon"/> */}
         </button>
       )}
+
+      {isOpen && <Popup />}
+      {isOpen && <div className="hide" onClick={() => closePopup()}></div>}
     </div>
   );
 };

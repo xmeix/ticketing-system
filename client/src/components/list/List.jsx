@@ -71,6 +71,12 @@ const data = [
     etat: "OUVERT",
     adz: "assis dz",
     afr: "assis fr",
+    deadline:
+      new Date().getDate() +
+      "-" +
+      (new Date().getMonth() + 1) +
+      "-" +
+      new Date().getFullYear(),
     createdAt:
       new Date().getDate() +
       "-" +
@@ -84,6 +90,12 @@ const data = [
     etat: "ENCOURS",
     adz: "assis dz",
     afr: "assis fr",
+    deadline:
+      new Date().getDate() +
+      "-" +
+      (new Date().getMonth() + 1) +
+      "-" +
+      new Date().getFullYear(),
     createdAt:
       new Date().getDate() +
       "-" +
@@ -97,6 +109,12 @@ const data = [
     etat: "RESOLU",
     adz: "assis dz",
     afr: "assis fr",
+    deadline:
+      new Date().getDate() +
+      "-" +
+      (new Date().getMonth() + 1) +
+      "-" +
+      new Date().getFullYear(),
     createdAt:
       new Date().getDate() +
       "-" +
@@ -110,6 +128,12 @@ const data = [
     etat: "OUVERT",
     adz: "assis dz",
     afr: "assis fr",
+    deadline:
+      new Date().getDate() +
+      "-" +
+      (new Date().getMonth() + 1) +
+      "-" +
+      new Date().getFullYear(),
     createdAt:
       new Date().getDate() +
       "-" +
@@ -123,6 +147,12 @@ const data = [
     etat: "OUVERT",
     adz: "assis dz",
     afr: "assis fr",
+    deadline:
+      new Date().getDate() +
+      "-" +
+      (new Date().getMonth() + 1) +
+      "-" +
+      new Date().getFullYear(),
     createdAt:
       new Date().getDate() +
       "-" +
@@ -136,6 +166,12 @@ const data = [
     etat: "ENCOURS",
     adz: "assis dz",
     afr: "assis fr",
+    deadline:
+      new Date().getDate() +
+      "-" +
+      (new Date().getMonth() + 1) +
+      "-" +
+      new Date().getFullYear(),
     createdAt:
       new Date().getDate() +
       "-" +
@@ -149,6 +185,12 @@ const data = [
     etat: "RESOLU",
     adz: "assis dz",
     afr: "assis fr",
+    deadline:
+      new Date().getDate() +
+      "-" +
+      (new Date().getMonth() + 1) +
+      "-" +
+      new Date().getFullYear(),
     createdAt:
       new Date().getDate() +
       "-" +
@@ -162,6 +204,12 @@ const data = [
     etat: "OUVERT",
     adz: "assis dz",
     afr: "assis fr",
+    deadline:
+      new Date().getDate() +
+      "-" +
+      (new Date().getMonth() + 1) +
+      "-" +
+      new Date().getFullYear(),
     createdAt:
       new Date().getDate() +
       "-" +

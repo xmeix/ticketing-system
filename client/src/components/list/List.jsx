@@ -14,9 +14,11 @@ import {
   makeStyles,
   Tooltip,
 } from "@material-ui/core";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import NoRecords from "../noRecords/NoRecords";
 import ListParams from "../listParams/ListParams";
+import Ticket from "../ticket/Ticket";
+import usePopup from "../../hooks/usePopup";
 const useStyles = makeStyles({
   table: {
     "& .MuiPaper-root, & .MuiTableContainer-root": {
@@ -174,6 +176,7 @@ const List = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
   const [filteredTickets, setFilteredTickets] = useState(data);
+  const { openPopup, Popup, isOpen, closePopup } = usePopup();
 
   useEffect(() => {
     if (filter.trim() !== "") {
@@ -231,6 +234,7 @@ const List = () => {
     page * rowsPerPage,
     page * rowsPerPage + rowsPerPage
   );
+
   return (
     <div className="list">
       <ListParams setFilter={setFilter} />
@@ -266,12 +270,12 @@ const List = () => {
             </TableRow>
           </TableHead>
           <TableBody className={classes.tableBody}>
-            {filteredTickets.length === 0 ? (
+            {paginatedData.length === 0 ? (
               <NoRecords cols={4} />
             ) : (
               <>
                 {paginatedData.map((ticket) => (
-                  <ListItem ticket={ticket} />
+                  <ListItem ticket={ticket} openPopup={openPopup} />
                 ))}
               </>
             )}
@@ -288,6 +292,8 @@ const List = () => {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
+      {isOpen && <Popup />}
+      {isOpen && <div className="hide" onClick={() => closePopup()}></div>}
     </div>
   );
 };

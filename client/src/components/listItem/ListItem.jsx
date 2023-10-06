@@ -19,8 +19,8 @@ const ListItem = ({ ticket, openPopup }) => {
         colSpan={3}
         className={`table-cell ${classes.TableCell}`}
       >
-        <div className="objet">{ticket.objet}</div>
-        <div className="description">{ticket.description}</div>
+        <div className="objet">{ticket?.objet}</div>
+        <div className="description">{ticket?.description}</div>
       </TableCell>
       <TableCell
         onClick={() => openPopup(ticket, "ticket")}
@@ -28,7 +28,7 @@ const ListItem = ({ ticket, openPopup }) => {
         colSpan={1}
         className={`tdate table-cell ${classes.TableCell}`}
       >
-        <p className="date">{ticket.createdAt}</p>
+        <p className="date">{ticket?.createdAt}</p>
       </TableCell>
       <TableCell
         onClick={() => openPopup(ticket, "ticket")}
@@ -43,7 +43,7 @@ const ListItem = ({ ticket, openPopup }) => {
         align="center"
         className={`table-cell action ${classes.TableCell}`}
       >
-        <div className={`ticket-${ticket.etat}`}>{ticket.etat}</div>{" "}
+        <div className={`ticket-${ticket?.etat}`}>{ticket?.etat}</div>{" "}
         {role === "ADZ" && (
           <button onClick={() => console.log("just clicked")}>Prendre</button>
         )}

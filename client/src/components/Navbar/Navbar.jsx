@@ -5,11 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/apiCalls/auth";
 import PersonAddAlt1RoundedIcon from "@mui/icons-material/PersonAddAlt1Rounded";
 import { NavLink } from "react-router-dom";
+import { resetTicket } from "../../store/slices/ticketSlice";
 const Navbar = () => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await dispatch(resetTicket());
     dispatch(logout());
   };
 

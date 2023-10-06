@@ -1,5 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { login, logout, register } from "../apiCalls/auth";
+import Cookies from "js-cookie";
+// import { getCSRFToken } from "../apiCalls/apiService";
+
 const authSlice = createSlice({
   name: "auth",
   initialState: {
@@ -31,7 +34,9 @@ const authSlice = createSlice({
       state.loading = false;
       state.isLoggedIn = true;
       state.user = action.payload.user;
-      // Cookies.set("access_token", action.payload.access_token);
+      Cookies.set("access_token", action.payload.access_token);
+      Cookies.set("refresh_token", action.payload.refresh_token);
+      // Cookies.set("csrftoken", getCSRFToken());
       localStorage.setItem("isLoggedIn", true);
     });
     builder.addCase(login.rejected, (state, action) => {
@@ -62,8 +67,9 @@ const authSlice = createSlice({
       state.loading = false;
       state.isLoggedIn = false;
       state.user = null;
-      Cookies.remove("access_token");
       localStorage.setItem("isLoggedIn", false);
+      // Cookies.remove("csrftoken", { path: "" });
+
     });
     builder.addCase(logout.rejected, (state, action) => {
       state.error = action.payload;

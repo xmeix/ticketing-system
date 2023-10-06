@@ -7,15 +7,17 @@ from .serializers import TicketSerializer, TicketReponseSerializer
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from .permissions import HasRolePermission
-
+from rest_framework_simplejwt.authentication import JWTAuthentication
+ 
 
 
 @api_view(['GET'])
-@authentication_classes([SessionAuthentication, TokenAuthentication])
-@permission_classes([IsAuthenticated]) 
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def get_all_tickets(request):
     #ajout de contraintes apres la creation de reactproject
     #pour afr on envoie que ces tickets, ticketsReponses
+    print(" tickets ... ")
     tickets = Ticket.objects.all()
     serializer = TicketSerializer(tickets, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)  # Use Response
@@ -41,7 +43,8 @@ def get_all_reponses(request):
 @permission_classes([IsAuthenticated, HasRolePermission])
 def create_ticket(request):
     
-    create_ticket.required_role = 'AFR'
+    create_ticket.required_role = 'ADM' 
+    # create_ticket.required_role = 'AFR' 
     
     ticket_data = request.data
     ticket_data['afr'] = request.user.id # created by assistante FR

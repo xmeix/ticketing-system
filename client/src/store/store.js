@@ -1,6 +1,6 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import authReducer from "./slices/authSlice.js";
- 
+import ticketReducer from "./slices/ticketSlice.js";
 
 import {
   persistStore,
@@ -22,7 +22,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   auth: authReducer,
- 
+  ticket: ticketReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

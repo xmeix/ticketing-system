@@ -6,38 +6,37 @@ const API_BASE_URL = "http://127.0.0.1:8000/";
 export const getJwtTokenFromCookie = () => {
   const cookie = Cookies.get("access_token");
 
-  // console.log(cookie);
+  console.log("jwt=", cookie);
   return cookie ? cookie : undefined;
 };
-export const token = getJwtTokenFromCookie();
+export const getRefreshTokenFromCookie = () => {
+  const cookie = Cookies.get("refresh_token");
 
-export const getcsrfTokenFromCookie = () => {
-  const cookie = Cookies.get("csrftoken");
-  // console.log(cookie);
+  console.log("refresh=", cookie);
   return cookie ? cookie : undefined;
 };
-export const csrf = getcsrfTokenFromCookie();
 
 export const publicRequest = axios.create({
   baseURL: API_BASE_URL,
+ 
 });
 
 export const userRequest = axios.create({
   baseURL: API_BASE_URL,
   headers: {
-    // "X-CSRFToken": csrf,
     "Content-Type": "application/json",
-    // Authorization: token ? `Bearer ${token}` : undefined,
+    Authorization: `Bearer ${getJwtTokenFromCookie()}`,
+    authorization: `Bearer ${getJwtTokenFromCookie()}`,
+    accept: "application/json",
   },
   withCredentials: true,
 });
 
 userRequest.interceptors.request.use(
-  (config) => {
-    const token = getJwtTokenFromCookie();
+  async (config) => {
+    const token = await getJwtTokenFromCookie();
     if (token) {
-      // config.headers.Authorization = `Bearer ${token}`;
-      config.headers["X-CSRFToken"] = csrf;
+      config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
@@ -45,6 +44,67 @@ userRequest.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+
+// userRequest.interceptors.response.use(
+//   (response) => response,
+//   (error) => {
+//     const originalRequest = error.config;
+
+//     // Prevent infinite loops early
+//     if (
+//       error.response.status === 401 &&
+//       originalRequest.url === baseURL + "api/auth/token/refresh/"
+//     ) {
+//       window.location.href = "/login/";
+//       return Promise.reject(error);
+//     }
+
+//     if (
+//       error.response.data.code === "token_not_valid" &&
+//       error.response.status === 401 &&
+//       error.response.statusText === "Unauthorized"
+//     ) {
+//       const refreshToken = Cookies.get("refresh_token");
+//       console.log("get refresh: ", refreshToken);
+
+//       if (refreshToken) {
+//         const tokenParts = JSON.parse(atob(refreshToken.split(".")[1]));
+
+//         // exp date in token is expressed in seconds, while now() returns milliseconds:
+//         const now = Math.ceil(Date.now() / 1000);
+//         console.log(tokenParts.exp);
+
+//         if (tokenParts.exp > now) {
+//           return axiosInstance
+//             .post("api/auth/token/refresh/", { refresh: refreshToken })
+//             .then((response) => {
+//               Cookies.set("refresh_token", response.data.refresh);
+//               Cookies.set("access_token", response.data.access);
+
+//               axiosInstance.defaults.headers["Authorization"] =
+//                 "Bearer " + response.data.access;
+//               originalRequest.headers["Authorization"] =
+//                 "Bearer " + response.data.access;
+
+//               return axiosInstance(originalRequest);
+//             })
+//             .catch((err) => {
+//               console.log(err);
+//             });
+//         } else {
+//           console.log("Refresh token is expired", tokenParts.exp, now);
+//           window.location.href = "/login/";
+//         }
+//       } else {
+//         console.log("Refresh token not available.");
+//         window.location.href = "/login/";
+//       }
+//     }
+
+//     // specific error handling done elsewhere
+//     return Promise.reject(error);
+//   }
+// );
 
 export const apiService = {
   public: {

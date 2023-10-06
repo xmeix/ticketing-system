@@ -8,7 +8,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
-
+ 
     def create(self, validated_data):
         auth_user = User.objects.create_user(**validated_data)
         return auth_user

@@ -4,11 +4,13 @@ from rest_framework.response import Response
 from .serializers import UserRegistrationSerializer, UserLoginSerializer
 from django.contrib.auth import login, authenticate
 from rest_framework_simplejwt.tokens import RefreshToken 
-from rest_framework.authentication import SessionAuthentication, TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 
 @api_view(['POST'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def register(request):
     if request.method == 'POST':
         serializer = UserRegistrationSerializer(data=request.data)
@@ -26,6 +28,8 @@ def register(request):
 
 
 @api_view(['POST'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([AllowAny])
 def user_login(request):
     serializer = UserLoginSerializer(data=request.data)
     if serializer.is_valid():
@@ -40,10 +44,10 @@ def user_login(request):
             access_token = str(refresh.access_token)
             refresh_token = str(refresh)
              
-            # Serialize the user object, excluding the password field
+            # exclude the password field
             user_data = UserRegistrationSerializer(user).data
-            user_data.pop('password', None)  # Remove the 'password' field
-            user_data.pop('is_superuser', None)  # Remove the 'password' field
+            user_data.pop('password', None)  
+            user_data.pop('is_superuser', None) 
             
             return Response(
                 {
@@ -61,39 +65,30 @@ def user_login(request):
     )
  
 
-
  
+
 @api_view(['POST']) 
-@authentication_classes([SessionAuthentication, TokenAuthentication])
-@permission_classes([IsAuthenticated])
-def addticket(request):
-    if request.method == 'POST':
-         
-        return Response(
-            {
-                'message': 'TEST: Vous etes autorisé',
-                'user': request.user.email,  # Access the user's ID
-            },
-            status=status.HTTP_201_CREATED,
-        )
-
-
-
-@api_view(['POST'])
-@authentication_classes([SessionAuthentication, TokenAuthentication])
+@authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def user_logout(request):
     # Invalidate tokens (optional, can also revoke tokens by blacklisting)
+    response = Response({'message': 'Déconnexion réussie'}, status=status.HTTP_200_OK)
+    response.delete_cookie('csrftoken')
+    
     request.user = None   
-    request.session.flush()  # Flush session data
-
-    return Response(
-        {'message': 'Déconnexion réussie'},
-        status=status.HTTP_200_OK,
-    )
+    request.auth = None   
+    request.session.flush()  
+    
+    return response
 
 
 
-
-
- 
+# View using Token Authentication
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def protected_view(request):
+    print(request.user.is_authenticated)  
+    print(request.user.is_authenticated)  
+    user_id = request.user if request.user.id else "Unknown"
+    return Response({'message': 'This is ' + str(user_id) + ' a protected view using Token Authentication.'})

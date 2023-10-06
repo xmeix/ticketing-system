@@ -19,7 +19,9 @@ import NoRecords from "../noRecords/NoRecords";
 import ListParams from "../listParams/ListParams";
 import Ticket from "../ticket/Ticket";
 import usePopup from "../../hooks/usePopup";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getTickets } from "../../store/apiCalls/ticket";
+import { setTickets } from "../../store/slices/ticketSlice";
 const useStyles = makeStyles({
   table: {
     "& .MuiPaper-root, & .MuiTableContainer-root": {
@@ -64,179 +66,194 @@ const useStyles = makeStyles({
     },
   },
 });
-const data = [
-  {
-    objet: "First issue",
-    description: "lorem ipsum delorum set amet lorem ipsum delorum set amet ",
-    etat: "OUVERT",
-    adz: "assis dz",
-    afr: "assis fr",
-    deadline:
-      new Date().getDate() +
-      "-" +
-      (new Date().getMonth() + 1) +
-      "-" +
-      new Date().getFullYear(),
-    createdAt:
-      new Date().getDate() +
-      "-" +
-      (new Date().getMonth() + 1) +
-      "-" +
-      new Date().getFullYear(),
-  },
-  {
-    objet: "First issue",
-    description: "lorem ipsum delorum set amet lorem ipsum delorum set amet ",
-    etat: "ENCOURS",
-    adz: "assis dz",
-    afr: "assis fr",
-    deadline:
-      new Date().getDate() +
-      "-" +
-      (new Date().getMonth() + 1) +
-      "-" +
-      new Date().getFullYear(),
-    createdAt:
-      new Date().getDate() +
-      "-" +
-      (new Date().getMonth() + 1) +
-      "-" +
-      new Date().getFullYear(),
-  },
-  {
-    objet: "First issue",
-    description: "lorem ipsum delorum set amet lorem ipsum delorum set amet ",
-    etat: "RESOLU",
-    adz: "assis dz",
-    afr: "assis fr",
-    deadline:
-      new Date().getDate() +
-      "-" +
-      (new Date().getMonth() + 1) +
-      "-" +
-      new Date().getFullYear(),
-    createdAt:
-      new Date().getDate() +
-      "-" +
-      (new Date().getMonth() + 1) +
-      "-" +
-      new Date().getFullYear(),
-  },
-  {
-    objet: "First issue",
-    description: "lorem ipsum delorum set amet lorem ipsum delorum set amet ",
-    etat: "OUVERT",
-    adz: "assis dz",
-    afr: "assis fr",
-    deadline:
-      new Date().getDate() +
-      "-" +
-      (new Date().getMonth() + 1) +
-      "-" +
-      new Date().getFullYear(),
-    createdAt:
-      new Date().getDate() +
-      "-" +
-      (new Date().getMonth() + 1) +
-      "-" +
-      new Date().getFullYear(),
-  },
-  {
-    objet: "First issue",
-    description: "lorem ipsum delorum set amet lorem ipsum delorum set amet ",
-    etat: "OUVERT",
-    adz: "assis dz",
-    afr: "assis fr",
-    deadline:
-      new Date().getDate() +
-      "-" +
-      (new Date().getMonth() + 1) +
-      "-" +
-      new Date().getFullYear(),
-    createdAt:
-      new Date().getDate() +
-      "-" +
-      (new Date().getMonth() + 1) +
-      "-" +
-      new Date().getFullYear(),
-  },
-  {
-    objet: "First issue",
-    description: "lorem ipsum delorum set amet lorem ipsum delorum set amet ",
-    etat: "ENCOURS",
-    adz: "assis dz",
-    afr: "assis fr",
-    deadline:
-      new Date().getDate() +
-      "-" +
-      (new Date().getMonth() + 1) +
-      "-" +
-      new Date().getFullYear(),
-    createdAt:
-      new Date().getDate() +
-      "-" +
-      (new Date().getMonth() + 1) +
-      "-" +
-      new Date().getFullYear(),
-  },
-  {
-    objet: "First issue",
-    description: "lorem ipsum delorum set amet lorem ipsum delorum set amet ",
-    etat: "RESOLU",
-    adz: "assis dz",
-    afr: "assis fr",
-    deadline:
-      new Date().getDate() +
-      "-" +
-      (new Date().getMonth() + 1) +
-      "-" +
-      new Date().getFullYear(),
-    createdAt:
-      new Date().getDate() +
-      "-" +
-      (new Date().getMonth() + 1) +
-      "-" +
-      new Date().getFullYear(),
-  },
-  {
-    objet: "First issue",
-    description: "lorem ipsum delorum set amet lorem ipsum delorum set amet ",
-    etat: "OUVERT",
-    adz: "assis dz",
-    afr: "assis fr",
-    deadline:
-      new Date().getDate() +
-      "-" +
-      (new Date().getMonth() + 1) +
-      "-" +
-      new Date().getFullYear(),
-    createdAt:
-      new Date().getDate() +
-      "-" +
-      (new Date().getMonth() + 1) +
-      "-" +
-      new Date().getFullYear(),
-  },
-];
+// const tickets = [
+//   {
+//     objet: "First issue",
+//     description: "lorem ipsum delorum set amet lorem ipsum delorum set amet ",
+//     etat: "OUVERT",
+//     adz: "assis dz",
+//     afr: "assis fr",
+//     deadline:
+//       new Date().getDate() +
+//       "-" +
+//       (new Date().getMonth() + 1) +
+//       "-" +
+//       new Date().getFullYear(),
+//     createdAt:
+//       new Date().getDate() +
+//       "-" +
+//       (new Date().getMonth() + 1) +
+//       "-" +
+//       new Date().getFullYear(),
+//   },
+//   {
+//     objet: "First issue",
+//     description: "lorem ipsum delorum set amet lorem ipsum delorum set amet ",
+//     etat: "ENCOURS",
+//     adz: "assis dz",
+//     afr: "assis fr",
+//     deadline:
+//       new Date().getDate() +
+//       "-" +
+//       (new Date().getMonth() + 1) +
+//       "-" +
+//       new Date().getFullYear(),
+//     createdAt:
+//       new Date().getDate() +
+//       "-" +
+//       (new Date().getMonth() + 1) +
+//       "-" +
+//       new Date().getFullYear(),
+//   },
+//   {
+//     objet: "First issue",
+//     description: "lorem ipsum delorum set amet lorem ipsum delorum set amet ",
+//     etat: "RESOLU",
+//     adz: "assis dz",
+//     afr: "assis fr",
+//     deadline:
+//       new Date().getDate() +
+//       "-" +
+//       (new Date().getMonth() + 1) +
+//       "-" +
+//       new Date().getFullYear(),
+//     createdAt:
+//       new Date().getDate() +
+//       "-" +
+//       (new Date().getMonth() + 1) +
+//       "-" +
+//       new Date().getFullYear(),
+//   },
+//   {
+//     objet: "First issue",
+//     description: "lorem ipsum delorum set amet lorem ipsum delorum set amet ",
+//     etat: "OUVERT",
+//     adz: "assis dz",
+//     afr: "assis fr",
+//     deadline:
+//       new Date().getDate() +
+//       "-" +
+//       (new Date().getMonth() + 1) +
+//       "-" +
+//       new Date().getFullYear(),
+//     createdAt:
+//       new Date().getDate() +
+//       "-" +
+//       (new Date().getMonth() + 1) +
+//       "-" +
+//       new Date().getFullYear(),
+//   },
+//   {
+//     objet: "First issue",
+//     description: "lorem ipsum delorum set amet lorem ipsum delorum set amet ",
+//     etat: "OUVERT",
+//     adz: "assis dz",
+//     afr: "assis fr",
+//     deadline:
+//       new Date().getDate() +
+//       "-" +
+//       (new Date().getMonth() + 1) +
+//       "-" +
+//       new Date().getFullYear(),
+//     createdAt:
+//       new Date().getDate() +
+//       "-" +
+//       (new Date().getMonth() + 1) +
+//       "-" +
+//       new Date().getFullYear(),
+//   },
+//   {
+//     objet: "First issue",
+//     description: "lorem ipsum delorum set amet lorem ipsum delorum set amet ",
+//     etat: "ENCOURS",
+//     adz: "assis dz",
+//     afr: "assis fr",
+//     deadline:
+//       new Date().getDate() +
+//       "-" +
+//       (new Date().getMonth() + 1) +
+//       "-" +
+//       new Date().getFullYear(),
+//     createdAt:
+//       new Date().getDate() +
+//       "-" +
+//       (new Date().getMonth() + 1) +
+//       "-" +
+//       new Date().getFullYear(),
+//   },
+//   {
+//     objet: "First issue",
+//     description: "lorem ipsum delorum set amet lorem ipsum delorum set amet ",
+//     etat: "RESOLU",
+//     adz: "assis dz",
+//     afr: "assis fr",
+//     deadline:
+//       new Date().getDate() +
+//       "-" +
+//       (new Date().getMonth() + 1) +
+//       "-" +
+//       new Date().getFullYear(),
+//     createdAt:
+//       new Date().getDate() +
+//       "-" +
+//       (new Date().getMonth() + 1) +
+//       "-" +
+//       new Date().getFullYear(),
+//   },
+//   {
+//     objet: "First issue",
+//     description: "lorem ipsum delorum set amet lorem ipsum delorum set amet ",
+//     etat: "OUVERT",
+//     adz: "assis dz",
+//     afr: "assis fr",
+//     deadline:
+//       new Date().getDate() +
+//       "-" +
+//       (new Date().getMonth() + 1) +
+//       "-" +
+//       new Date().getFullYear(),
+//     createdAt:
+//       new Date().getDate() +
+//       "-" +
+//       (new Date().getMonth() + 1) +
+//       "-" +
+//       new Date().getFullYear(),
+//   },
+// ];
+
 const List = () => {
   const classes = useStyles();
   const { user } = useSelector((state) => state.auth);
   const [filter, setFilter] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
-  const [filteredTickets, setFilteredTickets] = useState(data);
   const { openPopup, Popup, isOpen, closePopup } = usePopup();
+  const dispatch = useDispatch();
+  const { tickets } = useSelector((state) => state.ticket);
+  const [filteredTickets, setFilteredTickets] = useState(tickets);
+
+  useEffect(() => {
+    const fetchTickets = async () => {
+      try {
+        const ticketsData = await getTickets();
+        dispatch(setTickets(ticketsData));
+      } catch (error) {
+        // Handle error if needed
+      }
+    };
+    fetchTickets();
+  }, []);
 
   useEffect(() => {
     if (filter.trim() !== "") {
-      const filtered = data.filter((item) =>
+      const filtered = tickets.filter((item) =>
         item.etat.toLowerCase().includes(filter.toLowerCase())
       );
       setFilteredTickets(filtered);
     } else {
-      setFilteredTickets(data);
+      setFilteredTickets(tickets);
     }
-  }, [filter, data]);
+  }, [filter, tickets]);
 
   /** HANDLE  SORT ___________________________________________________*/
 
@@ -320,7 +337,7 @@ const List = () => {
           </TableHead>
           <TableBody className={classes.tableBody}>
             {paginatedData.length === 0 ? (
-              <NoRecords cols={4} />
+              <NoRecords cols={7} />
             ) : (
               <>
                 {paginatedData.map((ticket, i) => (

@@ -1,8 +1,11 @@
 import { useRef, useState } from "react";
 import "./TicketReply.css";
 import { useDispatch } from "react-redux";
-import { createReply, createTicket } from "../../../store/apiCalls/ticket";
-import { Toaster } from "react-hot-toast";
+import {
+  createReply,
+  createTicket,
+  getTickets,
+} from "../../../store/apiCalls/ticket";
 
 const TicketReply = ({ type, ticket }) => {
   const objectRef = useRef();
@@ -17,25 +20,34 @@ const TicketReply = ({ type, ticket }) => {
     setSelectedFile(file);
   };
 
-  const handleTicketAction = () => {
-    if (selectedFile) {
-      let form_data = new FormData();
-      form_data.append("piecesjointes", selectedFile);
-      form_data.append("description", descriptionRef.current.value);
+  const handleTicketAction = async () => {
+ 
 
-      if (type === "new") {
-        form_data.append("deadline", deadlineRef.current.value);
-        form_data.append("objet", objectRef.current.value);
-        dispatch(createTicket(form_data));
-      } else {
-        form_data.append("objet", `Re: ${ticket?.objet}`);
-        dispatch(
-          createReply({
-            id: ticket?.id,
-            reply: form_data,
-          })
-        );
-      }
+    let form_data = new FormData();
+    if (selectedFile) {
+      form_data.append("piecesjointes", selectedFile);
+    }
+    form_data.append("description", descriptionRef.current.value);
+
+    if (type === "new") {
+      console.log("here");
+
+      form_data.append("deadline", deadlineRef.current.value);
+      form_data.append("objet", objectRef.current.value);
+      
+      await dispatch(createTicket(form_data));
+      dispatch(getTickets());
+    
+    } else {
+      console.log("here");
+
+      form_data.append("objet", `Re: ${ticket?.objet}`);
+      dispatch(
+        createReply({
+          id: ticket?.id,
+          reply: form_data,
+        })
+      );
     }
   };
 
@@ -104,7 +116,6 @@ const TicketReply = ({ type, ticket }) => {
           {type === "new" ? "Créer" : "Envoyer"}
         </button>
       </div>
-      <Toaster position="top-center" reverseOrder={false} />
     </div>
   );
 };

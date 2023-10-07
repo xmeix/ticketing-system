@@ -4,6 +4,7 @@ import TicketHeader from "./ticketHeader/TicketHeader";
 import TicketContent from "./ticketContent/TicketContent";
 import TicketReply from "./ticketReply/TicketReply";
 import { useSelector } from "react-redux";
+import { Toaster } from "react-hot-toast";
 
 const Ticket = ({ ticket, closePopup, type }) => {
   const [reply, setReply] = useState(false);
@@ -29,6 +30,8 @@ const Ticket = ({ ticket, closePopup, type }) => {
         <TicketHeader closePopup={closePopup} setReply={setReply} type="new" />
       )}
       {type === "ticketForm" && <TicketReply type="new" ticket={ticket} />}
+      <Toaster position="top-center" reverseOrder={false} />
+
     </div>
   );
 };

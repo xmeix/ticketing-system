@@ -35,13 +35,13 @@ const ticketSlice = createSlice({
     });
     builder.addCase(createTicket.fulfilled, (state, action) => {
       state.isLoading = false;
-      const newTicket = action.payload;
-      const isTicketAlreadyExists = state.tickets.some(
-        (ticket) => ticket.id === newTicket.id
-      );
-      if (!isTicketAlreadyExists) {
-        state.tickets.push(newTicket);
-      }
+      // const newTicket = action.payload;
+      // const isTicketAlreadyExists = state.tickets.some(
+      //   (ticket) => ticket.id === newTicket.id
+      // );
+      // if (!isTicketAlreadyExists) {
+      //   state.tickets.push(newTicket);
+      // }
       toast.success("ticket créé!");
     });
     builder.addCase(createTicket.rejected, (state, action) => {

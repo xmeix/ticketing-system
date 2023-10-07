@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 from rest_framework import status
 from rest_framework.response import Response  
 from .models import Ticket,TicketReponse
-from .serializers import TicketSerializer, TicketReponseSerializer
+from .serializers import TicketSerializer, TicketReponseSerializer,MyTicketSerializer
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from .permissions import HasRolePermission,HasADZRolePermission,HasBothRolePermission
@@ -56,35 +56,33 @@ def get_all_tickets(request):
 @permission_classes([IsAuthenticated, HasBothRolePermission])
 def create_ticket(request):
     
-    # create_ticket.required_role = 'ADM' 
-    # create_ticket.required_role = 'AFR' 
-    
-    ticket_data = request.data
+    ticket_data = request.data.copy()
+    print(request.user.id)
+    ticket_data['afr'] = request.user.id
+    print(ticket_data)
+    print(request.FILES)
     # handle saving file:
     if 'attachment' in request.FILES:
-        uploaded_file = request.FILES['attachment']
+        uploaded_file = request.FILES['piecesjointes']
         fs = FileSystemStorage()
         saved_file = fs.save(uploaded_file.name,uploaded_file)
         file_url = fs.url(saved_file)
+        print(file_url)
         # store its url
         ticket_data['piecesjointes'] = file_url
 
         if not uploaded_file.name:
             return Response({"error": "Votre fichier ne possède pas de nom"}, status=status.HTTP_400_BAD_REQUEST)
 
-    ticket_data['afr'] = request.user.id # created by assistante FR
-    serializer = TicketSerializer(data=ticket_data)
+    
+    ticket_serializer = MyTicketSerializer(data=ticket_data)
+        
+    if ticket_serializer.is_valid():
+        ticket_serializer.save()
+        return Response(ticket_serializer.data, status=status.HTTP_201_CREATED)
+    return Response(ticket_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)  
-    else:
-        errors = {}
-        for field, field_errors in serializer.errors.items():
-            errors[field] = field_errors[0]
-        return Response({"error": errors}, status=status.HTTP_400_BAD_REQUEST)  
+ 
  
  
 @api_view(['POST'])

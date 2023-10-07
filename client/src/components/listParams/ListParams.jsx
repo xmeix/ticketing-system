@@ -7,7 +7,7 @@ import usePopup from "../../hooks/usePopup";
 const ListParams = ({ setFilter }) => {
   const { user } = useSelector((state) => state.auth);
   const { isOpen, openPopup, closePopup, Popup } = usePopup();
-  const etats = ["RESOLU", "ENCOURS", "OUVERT"];
+  const etats = ["RESOLU", "ENCOURS", "OUVERT", "EXPIRE"];
   return (
     <div className="list-params  flex-row justify-between align-center">
       <div className=" flex-column select-group">

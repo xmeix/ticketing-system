@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./ListItem.css";
+import { useSelector } from "react-redux";
 import { TableCell, TableRow, makeStyles, Tooltip } from "@material-ui/core";
 const useStyles = makeStyles({
   tableCell: {
@@ -10,7 +11,7 @@ const useStyles = makeStyles({
 
 const ListItem = ({ ticket, openPopup }) => {
   const classes = useStyles();
-  const [role, setrole] = useState("ADZ");
+  const { user } = useSelector((state) => state.auth);
   const [etat, setEtat] = useState("OUVERT");
   return (
     <TableRow className={`list-item ${classes.tableRow}`}>
@@ -44,7 +45,7 @@ const ListItem = ({ ticket, openPopup }) => {
         className={`table-cell action ${classes.TableCell}`}
       >
         <div className={`ticket-${ticket?.etat}`}>{ticket?.etat}</div>{" "}
-        {role === "ADZ" && (
+        {user?.role === "ADZ" && (
           <button onClick={() => console.log("just clicked")}>Prendre</button>
         )}
       </TableCell>

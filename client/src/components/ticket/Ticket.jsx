@@ -3,24 +3,24 @@ import "./Ticket.css";
 import TicketHeader from "./ticketHeader/TicketHeader";
 import TicketContent from "./ticketContent/TicketContent";
 import TicketReply from "./ticketReply/TicketReply";
+import { useSelector } from "react-redux";
 
 const Ticket = ({ ticket, closePopup, type }) => {
   const [reply, setReply] = useState(false);
-  const [role, setRole] = useState("ADZ");
-
-
+  const { user } = useSelector((state) => state.auth);
 
   return (
     <div className="ticket-popup">
       {type === "ticket" && (
         <TicketHeader
+          ticket={ticket}
           closePopup={closePopup}
           setReply={setReply}
           type="reply"
         />
       )}
       {type === "ticket" && <TicketContent ticket={ticket} />}
-      {type === "ticket" && reply && role === "ADZ" && (
+      {type === "ticket" && reply && user.role === "ADZ" && (
         <TicketReply type="reply" />
       )}
       {type === "ticketForm" && (

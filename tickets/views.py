@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework import status
-from rest_framework.response import Response  # Import Response
+from rest_framework.response import Response  
 from .models import Ticket,TicketReponse
 from .serializers import TicketSerializer, TicketReponseSerializer
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
@@ -10,25 +10,42 @@ from .permissions import HasRolePermission
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from .permissions import HasBothRolePermission
 from django.core.files.storage import FileSystemStorage
+from django.db.models import Q 
+
 
 @api_view(['GET'])
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def get_all_tickets(request):
-    #ajout de contraintes apres la creation de reactproject
-    #pour afr on envoie que ces tickets, ticketsReponses
+    
     print(" tickets ... ")
     tickets = Ticket.objects.all()
-    serializer = TicketSerializer(tickets, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)  # Use Response
+    ticketsReponses = TicketReponse.objects.all()
+
+    filtered_tickets = []
+    filtered_replies = []
+    if request.user.role == "ADZ": 
+        print('dzdois')
+        filtered_tickets = Ticket.objects.filter(Q(etat="OUVERT") | Q(adz=request.user.id))
+        filtered_replies = TicketReponse.objects.filter(ticket__in=filtered_tickets)
+
+    if request.user.role == "AFR": 
+        filtered_tickets = Ticket.objects.filter(adz=request.user.id)
+        filtered_replies = TicketReponse.objects.filter(ticket__in=filtered_tickets)
+    else:
+        filtered_tickets = tickets
+        filtered_replies = ticketsReponses
+        
+    repSerializer = TicketSerializer(filtered_replies, many=True)
+    serializer = TicketSerializer(filtered_tickets, many=True)
+    return Response({"tickets": serializer.data, "replies": repSerializer.data}, status=status.HTTP_200_OK) 
 
 
 @api_view(['GET'])
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def get_all_reponses(request):
-    #ajout de contraintes apres la creation de reactproject
-    #pour afr on envoie que ces tickets, ticketsReponses
+    
     ticketsReponses = TicketReponse.objects.all()
     serializer = TicketSerializer(ticketsReponses, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)  # Use Response

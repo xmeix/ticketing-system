@@ -1,7 +1,7 @@
 .ticket-content {
   margin-top: 3em;
   padding: 1.5em;
-  border: 1px solid var(--gray);
+  border: 1px solid var(--light-gray);
   display: flex;
   flex-direction: column;
   gap: 1em;
@@ -16,10 +16,11 @@
 }
 
 .ticket-objet {
-  font-weight: 600;
+  font-weight: 500;
   font-size: 16px;
   color: var(--v-dark-gray);
   margin-bottom: 0.5em;
+  text-transform: uppercase;
 }
 
 .ticket-etat {
@@ -33,13 +34,50 @@
   color: var(--black);
 }
 
+.ticket-description .desc-ticket {
+  padding: 1.5em 1em;
+  margin: 0.5em 0;
+  border: 1px solid var(--light-gray);
+  border-radius: 5px;
+}
 .ticket-content span {
   font-weight: 600;
   font-size: 13px;
   color: var(--v-dark-gray);
+  text-transform: capitalize;
 }
 .ticket-deadline {
   font-weight: 500;
   font-size: 13px;
   color: var(--v-dark-gray);
+}
+.ticket-deadline .deadline {
+  border-radius: 9px;
+  /* border: solid 1px var(--light-gray); */
+
+  padding: 0.5em 1em;
+  font-size: 12px;
+  font-weight: 500;
+  background-color: #ffdcdc;
+  margin: 0 1em;
+}
+.files-attached {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  padding: 10px 1.5em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+}
+
+.files-attached .download-file {
+  background-color: var(--blue);
+  color: #fff;
+  border: none;
+  padding: 0.5em 1em;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  align-self: flex-end !important;
 }

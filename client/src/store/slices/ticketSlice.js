@@ -5,6 +5,7 @@ const ticketSlice = createSlice({
   name: "ticket",
   initialState: {
     tickets: [],
+    replies: [],
     isLoading: false,
     error: null,
   },
@@ -49,7 +50,8 @@ const ticketSlice = createSlice({
     });
     builder.addCase(getTickets.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.tickets = action.payload;
+      state.tickets = action.payload.tickets;
+      state.replies = action.payload.replies;
     });
     builder.addCase(getTickets.rejected, (state, action) => {
       state.error = action.payload;

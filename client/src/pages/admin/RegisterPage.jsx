@@ -34,8 +34,6 @@ const RegisterPage = () => {
     )
       toast.error("Champs invalides.");
     else {
-      toast.success("Inscription réussie");
-
       await dispatch(
         register({
           last_name: lastName,
@@ -45,7 +43,6 @@ const RegisterPage = () => {
           role,
         })
       );
-      toast.success("Inscription réussie");
     }
   };
 

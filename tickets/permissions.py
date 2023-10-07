@@ -12,8 +12,5 @@ class HasRolePermission(permissions.BasePermission):
         #     return False
 
         # Check if the user has the required role
-        required_role = getattr(view, 'required_role', None)  # Get the required role from the view
-        if not required_role:
-            return False
-
-        return request.user.role == required_role
+        print(request.user.role)
+        return request.user.role == "ADM"

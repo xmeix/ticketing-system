@@ -21,7 +21,6 @@ import Ticket from "../ticket/Ticket";
 import usePopup from "../../hooks/usePopup";
 import { useDispatch, useSelector } from "react-redux";
 import { getTickets } from "../../store/apiCalls/ticket";
-import { setTickets } from "../../store/slices/ticketSlice";
 const useStyles = makeStyles({
   table: {
     "& .MuiPaper-root, & .MuiTableContainer-root": {
@@ -229,20 +228,12 @@ const List = () => {
   const [page, setPage] = useState(0);
   const { openPopup, Popup, isOpen, closePopup } = usePopup();
   const dispatch = useDispatch();
-  const { tickets } = useSelector((state) => state.ticket);
+  const { tickets, error } = useSelector((state) => state.ticket);
   const [filteredTickets, setFilteredTickets] = useState(tickets);
 
   useEffect(() => {
-    const fetchTickets = async () => {
-      try {
-        const ticketsData = await getTickets();
-        dispatch(setTickets(ticketsData));
-      } catch (error) {
-        // Handle error if needed
-      }
-    };
-    fetchTickets();
-  }, []);
+    dispatch(getTickets());
+  }, [dispatch]);
 
   useEffect(() => {
     if (filter.trim() !== "") {

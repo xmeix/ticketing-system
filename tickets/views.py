@@ -24,22 +24,19 @@ def get_all_tickets(request):
 
 
 @api_view(['GET'])
-@authentication_classes([SessionAuthentication, TokenAuthentication])
-@permission_classes([IsAuthenticated]) 
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def get_all_reponses(request):
     #ajout de contraintes apres la creation de reactproject
     #pour afr on envoie que ces tickets, ticketsReponses
     ticketsReponses = TicketReponse.objects.all()
     serializer = TicketSerializer(ticketsReponses, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)  # Use Response
-
-
-
  
 
 
 @api_view(['POST'])
-@authentication_classes([SessionAuthentication, TokenAuthentication])
+@authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated, HasRolePermission])
 def create_ticket(request):
     
@@ -61,7 +58,7 @@ def create_ticket(request):
  
  
 @api_view(['POST'])
-@authentication_classes([SessionAuthentication, TokenAuthentication])
+@authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated, HasRolePermission])
 def create_reply_to_ticket(request,id):
     
@@ -86,7 +83,7 @@ def create_reply_to_ticket(request,id):
     
 
 @api_view(['PUT'])
-@authentication_classes([SessionAuthentication, TokenAuthentication])
+@authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated, HasRolePermission])
 def update_ticket(request, id):
     

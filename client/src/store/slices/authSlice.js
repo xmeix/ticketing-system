@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { login, logout, register } from "../apiCalls/auth";
 import Cookies from "js-cookie";
 // import { getCSRFToken } from "../apiCalls/apiService";
+import toast from "react-hot-toast";
 
 const authSlice = createSlice({
   name: "auth",
@@ -53,10 +54,12 @@ const authSlice = createSlice({
     });
     builder.addCase(register.fulfilled, (state) => {
       state.loading = false;
+      toast.success("Inscription réussie");
     });
     builder.addCase(register.rejected, (state, action) => {
       state.error = action.payload;
       state.loading = false;
+      toast.error(action.payload);
     });
     // logout
     builder.addCase(logout.pending, (state) => {
@@ -69,7 +72,6 @@ const authSlice = createSlice({
       state.user = null;
       localStorage.setItem("isLoggedIn", false);
       // Cookies.remove("csrftoken", { path: "" });
-
     });
     builder.addCase(logout.rejected, (state, action) => {
       state.error = action.payload;

@@ -15,6 +15,7 @@ function App() {
       {isLoggedIn && <Navbar />}
       <Routes>
         <Route path="*" element={isLoggedIn ? <Home /> : <LoginPage />} />
+
         {user?.role === "ADM" && (
           <Route path="/register" element={<RegisterPage />} />
         )}

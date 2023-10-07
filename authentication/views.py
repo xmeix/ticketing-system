@@ -24,7 +24,14 @@ def register(request):
                 },
                 status=status.HTTP_201_CREATED,
             )
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+        error_responses = []
+        
+        # Iterate through serializer errors and send one error at a time
+        for field, errors in serializer.errors.items():
+            for error in errors:
+                error_responses.append(error)
+        return Response({'detail': error_responses[0]}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])

@@ -16,9 +16,9 @@ class Ticket(models.Model):
     etat= models.CharField(max_length=10, choices=EtatTicket.choices , default=EtatTicket.OUVERT)
     adz = models.ForeignKey(User, on_delete=models.SET_NULL,null=True,blank=True,related_name='assis_dz')       
     afr = models.ForeignKey(User, on_delete=models.SET_NULL,null=True,blank=True,related_name='assis_fr')   
-    updatedAt = models.DateTimeField(auto_now=True) #updated at
-    createdAt =models.DateTimeField(auto_now_add=True) #created at
-    deadline = models.DateTimeField(null=True, blank=True)  # Define the deadline field as per your needs
+    updatedAt = models.DateTimeField(auto_now=True) 
+    createdAt =models.DateTimeField(auto_now_add=True)  
+    deadline = models.DateTimeField()  
     piecesjointes = models.FileField(upload_to='ticket_attachments/', blank=True, null=True)
 
     REQUIRED_FIELDS = ["objet", "description"]

@@ -13,11 +13,16 @@ const TicketContent = ({ ticket }) => {
         </div>
       </div>
       <div className="ticket-deadline">
-        <span>Date limite:</span> {ticket?.deadline}
+        <span>Date limite:</span>{" "}
+        {new Date(ticket?.deadline).getDate() +
+          " - " +
+          new Date(ticket?.deadline).getMonth() +
+          " - " +
+          new Date(ticket?.deadline).getFullYear()}
       </div>
       <div className="ticket-description">
         <span>Description:</span>
-        <br />
+        <br /> <br />
         {ticket?.description}
       </div>
 

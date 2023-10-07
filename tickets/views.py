@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from .permissions import HasRolePermission
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from .permissions import HasBothRolePermission
-
+from django.core.files.storage import FileSystemStorage
 
 @api_view(['GET'])
 @authentication_classes([JWTAuthentication])
@@ -44,8 +44,22 @@ def create_ticket(request):
     # create_ticket.required_role = 'AFR' 
     
     ticket_data = request.data
+    # handle saving file:
+    if 'attachment' in request.FILES:
+        uploaded_file = request.FILES['attachment']
+        fs = FileSystemStorage()
+        saved_file = fs.save(uploaded_file.name,uploaded_file)
+        file_url = fs.url(saved_file)
+        # store its url
+        ticket_data['piecesjointes'] = file_url
+
+        if not uploaded_file.name:
+            return Response({"error": "Votre fichier ne possède pas de nom"}, status=status.HTTP_400_BAD_REQUEST)
+
     ticket_data['afr'] = request.user.id # created by assistante FR
     serializer = TicketSerializer(data=ticket_data)
+
+
 
     if serializer.is_valid():
         serializer.save()

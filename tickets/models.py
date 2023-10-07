@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 # from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager, User
 from authentication.models import User
+from datetime import datetime, timedelta
 # Create your models here.
 class EtatTicket(models.TextChoices):
         OUVERT = _('OUVERT')
@@ -18,8 +19,8 @@ class Ticket(models.Model):
     afr = models.ForeignKey(User, on_delete=models.SET_NULL,null=True,blank=True,related_name='assis_fr')   
     updatedAt = models.DateTimeField(auto_now=True) 
     createdAt =models.DateTimeField(auto_now_add=True)  
-    deadline = models.DateTimeField()  
-    piecesjointes = models.FileField(upload_to='ticket_attachments/', blank=True, null=True)
+    deadline = models.DateTimeField(null=False, blank=False, default=datetime.now() + timedelta(days=1))
+    piecesjointes = models.FileField(upload_to='files/', blank=True, null=True)
 
     REQUIRED_FIELDS = ["objet", "description"]
 

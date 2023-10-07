@@ -9,3 +9,4 @@ urlpatterns = [
     path('replies/', views.get_all_reponses, name='replies-to-tickets'),
     path('',views.get_all_tickets,name='tickets'),      #url: api/tickets/
 ]
+

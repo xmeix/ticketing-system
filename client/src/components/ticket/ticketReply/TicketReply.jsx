@@ -8,41 +8,25 @@ const TicketReply = ({ type }) => {
   const descriptionRef = useRef();
   const deadlineRef = useRef();
   const attachmentRef = useRef();
-  const [selectedFilesCount, setSelectedFilesCount] = useState(0);
-   const dispatch = useDispatch();
+  const [selectedFile, setSelectedFile] = useState(null);
+  const dispatch = useDispatch();
 
-  const handleFileInputChange = () => {
-    const files = attachmentRef.current.files;
-
-    setSelectedFilesCount(files.length);
-
-    // const names = Array.from(files).map((file) => file.name);
-    // setSelectedFileNames(names);
+  const handleFileInputChange = (e) => {
+    const file = e.target.files[0];
+    setSelectedFile(file);
   };
 
   const handleTicketAction = () => {
-    // console.log("Description:", descriptionRef.current.value);
-    // console.log("Deadline:", deadlineRef.current.value);
+    if (selectedFile) {
+      let form_data = new FormData();
+      form_data.append("piecesjointes", selectedFile);
+      form_data.append("description", descriptionRef.current.value);
+      form_data.append("deadline", deadlineRef.current.value);
 
-    let selectedAttachment = null;
-    if (selectedFilesCount > 0) {
-      selectedAttachment = attachmentRef.current.files[0];  
-    }
-
-    if (type === "new") {
-      // console.log("It's a ticket form");
-      // console.log("Object:", objectRef.current.value);
-      dispatch(
-        createTicket({
-          objet: objectRef.current.value,
-          description: descriptionRef.current.value,
-          deadline: deadlineRef.current.value,
-          attachment: selectedAttachment, 
-        })
-      );
-    } else {
-      console.log("It's a reply on a ticket");
-      console.log("Object:", "Re:");
+      if (type === "new") {
+        form_data.append("objet", objectRef.current.value);
+        dispatch(createTicket(form_data));
+      }
     }
   };
 
@@ -89,13 +73,10 @@ const TicketReply = ({ type }) => {
         )}
         <div className="form-group">
           <label htmlFor="attachment">
-            {selectedFilesCount > 0 ? (
+            {selectedFile ? (
               <div className="files-selected">
                 <div className="files-number">{`fichier sélectionné:`}</div>
-
-                <div className="file-name">
-                  {"- " + attachmentRef.current.files[0].name}
-                </div>
+                <div className="file-name">{"- " + selectedFile.name}</div>
               </div>
             ) : (
               ""
@@ -104,7 +85,7 @@ const TicketReply = ({ type }) => {
           <input
             type="file"
             id="attachment"
-            name="attachment"
+            name="piecesjointes"
             ref={attachmentRef}
             onChange={handleFileInputChange}
           />

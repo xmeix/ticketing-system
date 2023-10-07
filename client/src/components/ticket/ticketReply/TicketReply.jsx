@@ -1,9 +1,10 @@
 import { useRef, useState } from "react";
 import "./TicketReply.css";
 import { useDispatch } from "react-redux";
-import { createTicket } from "../../../store/apiCalls/ticket";
+import { createReply, createTicket } from "../../../store/apiCalls/ticket";
+import { Toaster } from "react-hot-toast";
 
-const TicketReply = ({ type }) => {
+const TicketReply = ({ type, ticket }) => {
   const objectRef = useRef();
   const descriptionRef = useRef();
   const deadlineRef = useRef();
@@ -21,11 +22,19 @@ const TicketReply = ({ type }) => {
       let form_data = new FormData();
       form_data.append("piecesjointes", selectedFile);
       form_data.append("description", descriptionRef.current.value);
-      form_data.append("deadline", deadlineRef.current.value);
 
       if (type === "new") {
+        form_data.append("deadline", deadlineRef.current.value);
         form_data.append("objet", objectRef.current.value);
         dispatch(createTicket(form_data));
+      } else {
+        form_data.append("objet", `Re: ${ticket?.objet}`);
+        dispatch(
+          createReply({
+            id: ticket?.id,
+            reply: form_data,
+          })
+        );
       }
     }
   };
@@ -95,6 +104,7 @@ const TicketReply = ({ type }) => {
           {type === "new" ? "Créer" : "Envoyer"}
         </button>
       </div>
+      <Toaster position="top-center" reverseOrder={false} />
     </div>
   );
 };

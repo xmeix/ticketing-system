@@ -223,7 +223,7 @@ const useStyles = makeStyles({
 const List = () => {
   const classes = useStyles();
   const { user } = useSelector((state) => state.auth);
-  const [filter, setFilter] = useState("");
+  const [filter, setFilter] = useState("ALL");
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
   const { openPopup, Popup, isOpen, closePopup } = usePopup();
@@ -236,7 +236,7 @@ const List = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (filter.trim() !== "") {
+    if (filter.trim() !== "" && filter !== "ALL") {
       const filtered = tickets.filter((item) =>
         item.etat.toLowerCase().includes(filter.toLowerCase())
       );

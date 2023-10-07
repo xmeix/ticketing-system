@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createTicket, getTickets, prendreTicket } from "../apiCalls/ticket";
+import {
+  createReply,
+  createTicket,
+  getTickets,
+  prendreTicket,
+} from "../apiCalls/ticket";
 import toast from "react-hot-toast";
 const ticketSlice = createSlice({
   name: "ticket",
@@ -82,6 +87,29 @@ const ticketSlice = createSlice({
       state.error = action.payload;
       state.isLoading = false;
       toast.error("oups, vous ne pouvez prendre ce ticket!");
+    });
+    // SEND REPLY
+    builder.addCase(createReply.pending, (state, action) => {
+      state.isLoading = true;
+      state.error = null;
+      const load = toast.loading("Envoi du ticket...");
+      toast.dismiss(load);
+    });
+    builder.addCase(createReply.fulfilled, (state, action) => {
+      state.isLoading = false;
+      const newReply = action.payload;
+      const ReplyAlreadyExists = state.replies.some(
+        (reply) => reply.id === newReply.id
+      );
+      if (!ReplyAlreadyExists) {
+        state.replies.push(newReply);
+      }
+      toast.success("Ticket Envoyé!");
+    });
+    builder.addCase(createReply.rejected, (state, action) => {
+      state.error = action.payload;
+      state.isLoading = false;
+      toast.error(action.payload);
     });
   },
 });

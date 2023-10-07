@@ -51,3 +51,20 @@ export const createTicket = createAsyncThunk(
     }
   }
 );
+
+export const createReply = createAsyncThunk(
+  "api/tickets/reply",
+  async (body, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
+    try {
+      const res = await apiService.userFormData.post(
+        `api/tickets/reply/${body.id}/`,
+        body.reply
+      );
+      return res.data;
+    } catch (error) {
+      console.log(error.response.data.error);
+      return rejectWithValue(error.response.data.error);
+    }
+  }
+);

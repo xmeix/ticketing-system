@@ -19,14 +19,16 @@ const Ticket = ({ ticket, closePopup, type }) => {
           type="reply"
         />
       )}
-      {type === "ticket" && <TicketContent ticket={ticket} />}
-      {type === "ticket" && reply && user.role === "ADZ" && (
+      {type === "ticket" && (
+        <TicketContent ticket={ticket} type="normal-ticket" />
+      )}
+      {type === "ticket" && reply && user?.role === "ADZ" && (
         <TicketReply type="reply" />
       )}
       {type === "ticketForm" && (
         <TicketHeader closePopup={closePopup} setReply={setReply} type="new" />
       )}
-      {type === "ticketForm" && <TicketReply type="new" />}
+      {type === "ticketForm" && <TicketReply type="new" ticket={ticket} />}
     </div>
   );
 };

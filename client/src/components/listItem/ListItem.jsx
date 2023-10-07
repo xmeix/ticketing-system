@@ -41,15 +41,21 @@ const ListItem = ({ ticket, openPopup }) => {
         colSpan={1}
         className={`tdate table-cell ${classes.TableCell}`}
       >
-        <p className="date">{ticket?.createdAt}</p>
+        <p className="date">{`${new Date(
+          ticket?.createdAt
+        ).getDate()} - ${new Date(ticket?.createdAt).getMonth()} - ${new Date(
+          ticket?.createdAt
+        ).getFullYear()}`}</p>
       </TableCell>
       <TableCell
         onClick={() => openPopup(ticket, "ticket")}
         colSpan={2}
         className={`table-cell ${classes.TableCell}`}
       >
-        <p className="objet">Boualouache lamia</p>
-        <p className="description">lamiaboualouache@gmail.com</p>
+        <p className="objet">
+          {`${ticket?.afr?.last_name} ${ticket?.afr?.first_name}`.toLowerCase()}
+        </p>
+        <p className="description">{`${ticket?.afr?.email}`}</p>
       </TableCell>
       <TableCell
         colSpan={2}
@@ -57,7 +63,7 @@ const ListItem = ({ ticket, openPopup }) => {
         className={`table-cell action ${classes.TableCell}`}
       >
         <div className={`ticket-${ticket?.etat}`}>{ticket?.etat}</div>{" "}
-        {user?.role === "ADZ" && (
+        {user?.role === "ADZ" && ticket?.etat === "OUVERT" && (
           <button onClick={() => takeTicket()}>Prendre</button>
         )}
       </TableCell>

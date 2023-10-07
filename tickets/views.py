@@ -23,12 +23,13 @@ def get_all_tickets(request):
 
     filtered_tickets = []
     filtered_replies = []
+    print(request.user.role)
     if request.user.role == "ADZ": 
         filtered_tickets = Ticket.objects.filter(Q(etat="OUVERT") | Q(adz=request.user.id))
+        print(filtered_tickets)
         filtered_replies = TicketReponse.objects.filter(ticket__in=filtered_tickets)
-
-    if request.user.role == "AFR": 
-        filtered_tickets = Ticket.objects.filter(adz=request.user.id)
+    elif request.user.role == "AFR": 
+        filtered_tickets = Ticket.objects.filter(afr=request.user.id)
         filtered_replies = TicketReponse.objects.filter(ticket__in=filtered_tickets)
     else:
         filtered_tickets = tickets

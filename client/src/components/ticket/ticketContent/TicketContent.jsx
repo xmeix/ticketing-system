@@ -1,7 +1,7 @@
 import React from "react";
 import "./TicketContent.css";
 
-const TicketContent = ({ ticket }) => {
+const TicketContent = ({ ticket, type }) => {
   const handleFileDownload = () => {
     if (ticket?.piecesjointes) {
       window.open("http://localhost:8000/" + ticket?.piecesjointes, "_blank");
@@ -49,6 +49,28 @@ const TicketContent = ({ ticket }) => {
           </button>
         </div>
       )}
+      <div className="flex-row justify-between">
+        <div className="ticket-creator flex-column">
+          <span>Créé Par:</span>{" "}
+          <div className="creator-name">
+            {type === "normal-ticket"
+              ? `${ticket?.afr?.last_name} ${ticket?.afr?.first_name}`.toLowerCase()
+              : `${ticket?.adz?.last_name} ${ticket?.adz?.first_name}`.toLowerCase()}
+          </div>
+          <span>Email:</span>
+          <div className="creator-email">
+            {type === "normal-ticket"
+              ? `${ticket?.afr?.email}`
+              : `${ticket?.adz?.email}`}{" "}
+          </div>
+        </div>
+        <div className="ticket-creation-date flex-row">
+          <span>Créé le:</span>
+          {`${new Date(ticket?.createdAt).getDate()} - ${new Date(
+            ticket?.createdAt
+          ).getMonth()} - ${new Date(ticket?.createdAt).getFullYear()}`}
+        </div>
+      </div>
     </div>
   );
 };

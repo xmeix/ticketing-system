@@ -38,7 +38,7 @@
   padding: 1.5em 1em;
   margin: 0.5em 0;
   border: 1px solid var(--light-gray);
-  border-radius: 5px;
+  /* border-radius: 5px; */
 }
 .ticket-content span {
   font-weight: 600;
@@ -80,4 +80,19 @@
   cursor: pointer;
   font-size: 13px;
   align-self: flex-end !important;
+}
+
+.ticket-creator,
+.ticket-creation-date {
+  gap: 0.5em;
+}
+.ticket-creator span,
+.ticket-creation-date span {
+  font-size: 12px;
+}
+
+.ticket-creator .creator-email,
+.ticket-creator .creator-name,
+.ticket-creation-date {
+  font-size: 12px;
 }

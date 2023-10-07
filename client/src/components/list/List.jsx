@@ -315,7 +315,7 @@ const List = () => {
                 créé a
               </TableCell>
               <TableCell colSpan={2} className={classes.tableCell}>
-                {user.role === "ADZ" ? "créé par" : "pris par"}
+                {user.role !== "ADZ" ? "pris par" : "créé par"}
               </TableCell>
               <TableCell
                 colSpan={2}

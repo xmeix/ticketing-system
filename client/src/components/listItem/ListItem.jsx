@@ -3,6 +3,7 @@ import "./ListItem.css";
 import { useDispatch, useSelector } from "react-redux";
 import { TableCell, TableRow, makeStyles, Tooltip } from "@material-ui/core";
 import { prendreTicket } from "../../store/apiCalls/ticket";
+import { getDate, getEmail, getName } from "../../utils/utilFunctions";
 const useStyles = makeStyles({
   tableCell: {
     overflow: "hidden",
@@ -41,11 +42,7 @@ const ListItem = ({ ticket, openPopup }) => {
         colSpan={1}
         className={`tdate table-cell ${classes.TableCell}`}
       >
-        <p className="date">{`${new Date(
-          ticket?.createdAt
-        ).getDate()} - ${new Date(ticket?.createdAt).getMonth()} - ${new Date(
-          ticket?.createdAt
-        ).getFullYear()}`}</p>
+        <p className="date">{getDate(ticket)}</p>
       </TableCell>
       <TableCell
         onClick={() => openPopup(ticket, "ticket")}
@@ -53,9 +50,19 @@ const ListItem = ({ ticket, openPopup }) => {
         className={`table-cell ${classes.TableCell}`}
       >
         <p className="objet">
-          {`${ticket?.afr?.last_name} ${ticket?.afr?.first_name}`.toLowerCase()}
+          {user?.role !== "AFR"
+            ? getName(ticket, "afr")
+            : ticket?.adz !== null
+            ? getName(ticket, "adz")
+            : ""}
         </p>
-        <p className="description">{`${ticket?.afr?.email}`}</p>
+        <p className="description">
+          {user?.role !== "AFR"
+            ? getEmail(ticket, "afr")
+            : ticket?.adz !== null
+            ? getEmail(ticket, "adz")
+            : "/"}
+        </p>
       </TableCell>
       <TableCell
         colSpan={2}

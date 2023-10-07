@@ -8,7 +8,7 @@ from rest_framework.authentication import SessionAuthentication, TokenAuthentica
 from rest_framework.permissions import IsAuthenticated
 from .permissions import HasRolePermission
 from rest_framework_simplejwt.authentication import JWTAuthentication
- 
+from .permissions import HasBothRolePermission
 
 
 @api_view(['GET'])
@@ -37,10 +37,10 @@ def get_all_reponses(request):
 
 @api_view(['POST'])
 @authentication_classes([JWTAuthentication])
-@permission_classes([IsAuthenticated, HasRolePermission])
+@permission_classes([IsAuthenticated, HasBothRolePermission])
 def create_ticket(request):
     
-    create_ticket.required_role = 'ADM' 
+    # create_ticket.required_role = 'ADM' 
     # create_ticket.required_role = 'AFR' 
     
     ticket_data = request.data

@@ -7,6 +7,9 @@ import TicketReply from "./ticketReply/TicketReply";
 const Ticket = ({ ticket, closePopup, type }) => {
   const [reply, setReply] = useState(false);
   const [role, setRole] = useState("ADZ");
+
+
+
   return (
     <div className="ticket-popup">
       {type === "ticket" && (

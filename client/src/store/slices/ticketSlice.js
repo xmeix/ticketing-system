@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createTicket, getTickets } from "../apiCalls/ticket";
+import toast from "react-hot-toast";
 const ticketSlice = createSlice({
   name: "ticket",
   initialState: {
@@ -22,14 +23,24 @@ const ticketSlice = createSlice({
     builder.addCase(createTicket.pending, (state, action) => {
       state.isLoading = true;
       state.error = null;
+      const load = toast.loading("création d'un ticket...");
+      toast.dismiss(load);
     });
     builder.addCase(createTicket.fulfilled, (state, action) => {
       state.isLoading = false;
-      // state.tickets = action.payload.tickets; //here we should push the new item to tickets
+      const newTicket = action.payload;
+      const isTicketAlreadyExists = state.tickets.some(
+        (ticket) => ticket.id === newTicket.id
+      );
+      if (!isTicketAlreadyExists) {
+        state.tickets.push(newTicket);
+      }
+      toast.success("ticket créé!");
     });
     builder.addCase(createTicket.rejected, (state, action) => {
       state.error = action.payload;
       state.isLoading = false;
+      toast.error(action.payload);
     });
     // normal login
     builder.addCase(getTickets.pending, (state, action) => {

@@ -14,7 +14,7 @@ from pathlib import Path
 from datetime import timedelta
 from datetime import datetime
 from celery.schedules import crontab
-
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -257,3 +257,6 @@ CORS_ALLOW_CREDENTIALS = True
        
     
 # ]
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/ticket_attachements/'

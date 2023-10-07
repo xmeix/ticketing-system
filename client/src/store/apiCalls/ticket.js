@@ -3,18 +3,7 @@ import { apiService } from "./apiService";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-// export const getTickets = async () => {
-//   try {
-//     const res = await apiService.user.get("api/tickets/");
 
-//     console.log(res.data);
-//     return res.data;
-//   } catch (error) {
-//     console.log(error.response.data.error);
-//     toast.error(error.response.data.error);
-//     return error.response.data.error;
-//   }
-// };
 
 export const getTickets = createAsyncThunk(
   "api/tickets/",
@@ -35,7 +24,7 @@ export const createTicket = createAsyncThunk(
   async (body, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-      const res = await apiService.public.post("api/tickets/create", body);
+      const res = await apiService.user.post("api/tickets/create/", body);
       return res.data;
     } catch (error) {
       console.log(error.response.data.error);

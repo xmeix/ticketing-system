@@ -30,6 +30,8 @@ const authSlice = createSlice({
     builder.addCase(login.pending, (state, action) => {
       state.loading = true;
       state.error = null;
+      const load = toast.loading("Connexion...");
+      toast.dismiss(load);
     });
     builder.addCase(login.fulfilled, (state, action) => {
       state.loading = false;
@@ -37,15 +39,15 @@ const authSlice = createSlice({
       state.user = action.payload.user;
       Cookies.set("access_token", action.payload.access_token);
       Cookies.set("refresh_token", action.payload.refresh_token);
-      // Cookies.set("csrftoken", getCSRFToken());
       localStorage.setItem("isLoggedIn", true);
+      toast.success("Connexion réussie");
     });
     builder.addCase(login.rejected, (state, action) => {
       state.error = action.payload;
       state.loading = false;
       state.isLoggedIn = false;
       state.user = null;
-      //   state.token = null;
+      toast.error(action.payload);
     });
     // register
     builder.addCase(register.pending, (state) => {
@@ -60,11 +62,15 @@ const authSlice = createSlice({
       state.error = action.payload;
       state.loading = false;
       toast.error(action.payload);
+      const load = toast.loading("Enregistrement...");
+      toast.dismiss(load);
     });
     // logout
     builder.addCase(logout.pending, (state) => {
       state.loading = true;
       state.error = null;
+      const load = toast.loading("Déconnexion...");
+      toast.dismiss(load);
     });
     builder.addCase(logout.fulfilled, (state) => {
       state.loading = false;
@@ -72,12 +78,15 @@ const authSlice = createSlice({
       state.user = null;
       localStorage.setItem("isLoggedIn", false);
       // Cookies.remove("csrftoken", { path: "" });
+      toast.success("Au revoir!");
     });
     builder.addCase(logout.rejected, (state, action) => {
       state.error = action.payload;
       state.loading = false;
       state.isLoggedIn = false;
       state.user = null;
+      toast.error(action.payload);
+
       //   state.token = null;
     });
   },

@@ -14,3 +14,9 @@ class HasRolePermission(permissions.BasePermission):
         # Check if the user has the required role
         print(request.user.role)
         return request.user.role == "ADM"
+    
+    
+class HasBothRolePermission(permissions.BasePermission):
+    def has_permission(self, request, view):
+        authorized_roles = ['ADM', 'AFR']  # List of authorized roles
+        return request.user.role in authorized_roles

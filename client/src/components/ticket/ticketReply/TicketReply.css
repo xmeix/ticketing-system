@@ -39,7 +39,7 @@
   align-self: flex-end !important;
 }
 
-.ticket-reply form {
+.ticket-reply .ticket-reply-form {
   display: flex;
   flex-direction: column;
 }
@@ -58,8 +58,10 @@
   cursor: pointer;
 }
 .form-group label[for="attachment"]::before {
-  content: "Choose File";
-  display: inline-block;
+  content: "Choisir un fichier";
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
   padding: 10px 20px;
   margin: 1em;
   background-color: var(--white);
@@ -74,4 +76,19 @@
   font-weight: 700;
   padding: 0.5em 0;
   text-transform: capitalize;
+}
+
+.files-selected {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  padding: 10px 1.5em;
+}
+
+.files-number {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.file-name {
+  margin-left: 10px;
 }

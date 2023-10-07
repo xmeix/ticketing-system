@@ -1,7 +1,8 @@
 import { useState } from "react";
 import "./ListItem.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { TableCell, TableRow, makeStyles, Tooltip } from "@material-ui/core";
+import { prendreTicket } from "../../store/apiCalls/ticket";
 const useStyles = makeStyles({
   tableCell: {
     overflow: "hidden",
@@ -12,7 +13,18 @@ const useStyles = makeStyles({
 const ListItem = ({ ticket, openPopup }) => {
   const classes = useStyles();
   const { user } = useSelector((state) => state.auth);
-  const [etat, setEtat] = useState("OUVERT");
+  const dispatch = useDispatch();
+
+  const takeTicket = () => {
+    console.log(`taking ticket..by ${user.id}`);
+    dispatch(
+      prendreTicket({
+        etat: "ENCOURS",
+        id: ticket?.id,
+      })
+    );
+  };
+
   return (
     <TableRow className={`list-item ${classes.tableRow}`}>
       <TableCell
@@ -46,7 +58,7 @@ const ListItem = ({ ticket, openPopup }) => {
       >
         <div className={`ticket-${ticket?.etat}`}>{ticket?.etat}</div>{" "}
         {user?.role === "ADZ" && (
-          <button onClick={() => console.log("just clicked")}>Prendre</button>
+          <button onClick={() => takeTicket()}>Prendre</button>
         )}
       </TableCell>
     </TableRow>

@@ -184,7 +184,7 @@ REST_FRAMEWORK = {
 
 # the JWT token are the default settings from the SimpleJWT docs.
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=1),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=50),
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
@@ -248,15 +248,24 @@ CELERY_BEAT_SCHEDULE = {
 LANGUAGE_CODE = 'fr'
 
 
-CORS_ALLOW_ALL_ORIGINS = True
+# CORS_ALLOW_ALL_ORIGINS = True
 SESSION_COOKIE_SAMESITE = "None"
 CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_METHODS = (
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+)
 
-# CORS_ALLOWED_ORIGINS = [
-    
-       
-    
-# ]
+# ALLOWED_HOSTS = ['*']
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:8000',
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

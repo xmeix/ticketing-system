@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createTicket, getTickets } from "../apiCalls/ticket";
+import { createTicket, getTickets, prendreTicket } from "../apiCalls/ticket";
 import toast from "react-hot-toast";
 const ticketSlice = createSlice({
   name: "ticket",
@@ -15,6 +15,7 @@ const ticketSlice = createSlice({
     // },
     resetTicket: (state, action) => {
       state.tickets = [];
+      state.replies = [];
       state.error = null;
       state.isLoading = false;
     },
@@ -43,7 +44,7 @@ const ticketSlice = createSlice({
       state.isLoading = false;
       toast.error(action.payload);
     });
-    // normal login
+    // retrieve all tickets and replies
     builder.addCase(getTickets.pending, (state, action) => {
       state.isLoading = true;
       state.error = null;
@@ -56,6 +57,31 @@ const ticketSlice = createSlice({
     builder.addCase(getTickets.rejected, (state, action) => {
       state.error = action.payload;
       state.isLoading = false;
+    });
+    // update ticket state (prendre ticket)
+    builder.addCase(prendreTicket.pending, (state, action) => {
+      state.isLoading = true;
+      state.error = null;
+      const load = toast.loading("un moment s'il vous plait...");
+      toast.dismiss(load);
+    });
+    builder.addCase(prendreTicket.fulfilled, (state, action) => {
+      state.isLoading = false;
+
+      const updatedTicket = action.payload;
+      const filteredTickets = state.tickets.filter(
+        (ticket) => ticket.id !== updatedTicket.id
+      );
+
+      filteredTickets.push(updatedTicket);
+      state.tickets = filteredTickets;
+
+      toast.success("ticket pris.");
+    });
+    builder.addCase(prendreTicket.rejected, (state, action) => {
+      state.error = action.payload;
+      state.isLoading = false;
+      toast.error("oups, vous ne pouvez prendre ce ticket!");
     });
   },
 });

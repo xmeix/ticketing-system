@@ -20,3 +20,8 @@ class HasBothRolePermission(permissions.BasePermission):
     def has_permission(self, request, view):
         authorized_roles = ['ADM', 'AFR']  # List of authorized roles
         return request.user.role in authorized_roles
+    
+class HasADZRolePermission(permissions.BasePermission):
+    def has_permission(self, request, view):
+        authorized_roles = ['ADZ']  # List of authorized roles
+        return request.user.role in authorized_roles

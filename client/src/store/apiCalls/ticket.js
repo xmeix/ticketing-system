@@ -3,6 +3,25 @@ import { apiService } from "./apiService";
 import axios from "axios";
 import toast from "react-hot-toast";
 
+export const prendreTicket = createAsyncThunk(
+  "api/tickets/update",
+  async (body, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
+    try {
+      console.log("data: ", body);
+      const res = await apiService.user.patch(
+        `api/tickets/update/${body.id}/`,
+        {
+          etat: body.etat,
+        }
+      );
+      return res.data;
+    } catch (error) {
+      console.log(error.response.data.error);
+      return rejectWithValue(error.response.data.error);
+    }
+  }
+);
 export const getTickets = createAsyncThunk(
   "api/tickets/",
   async (body, thunkAPI) => {
@@ -12,7 +31,6 @@ export const getTickets = createAsyncThunk(
       return res.data;
     } catch (error) {
       console.log(error.response.data.error);
-      toast.error(error.response.data.error);
       return rejectWithValue(error.response.data.error);
     }
   }
@@ -22,11 +40,13 @@ export const createTicket = createAsyncThunk(
   async (body, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-      const res = await apiService.userFormData.post("api/tickets/create/", body);
+      const res = await apiService.userFormData.post(
+        "api/tickets/create/",
+        body
+      );
       return res.data;
     } catch (error) {
       console.log(error.response.data.error);
-      toast.error(error.response.data.error);
       return rejectWithValue(error.response.data.error);
     }
   }

@@ -6,9 +6,8 @@ from .models import Ticket,TicketReponse
 from .serializers import TicketSerializer, TicketReponseSerializer
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-from .permissions import HasRolePermission
+from .permissions import HasRolePermission,HasADZRolePermission,HasBothRolePermission
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from .permissions import HasBothRolePermission
 from django.core.files.storage import FileSystemStorage
 from django.db.models import Q 
 
@@ -18,14 +17,13 @@ from django.db.models import Q
 @permission_classes([IsAuthenticated])
 def get_all_tickets(request):
     
-    print(" tickets ... ")
+    # print(" tickets ... ")
     tickets = Ticket.objects.all()
     ticketsReponses = TicketReponse.objects.all()
 
     filtered_tickets = []
     filtered_replies = []
     if request.user.role == "ADZ": 
-        print('dzdois')
         filtered_tickets = Ticket.objects.filter(Q(etat="OUVERT") | Q(adz=request.user.id))
         filtered_replies = TicketReponse.objects.filter(ticket__in=filtered_tickets)
 
@@ -41,14 +39,14 @@ def get_all_tickets(request):
     return Response({"tickets": serializer.data, "replies": repSerializer.data}, status=status.HTTP_200_OK) 
 
 
-@api_view(['GET'])
-@authentication_classes([JWTAuthentication])
-@permission_classes([IsAuthenticated])
-def get_all_reponses(request):
+# @api_view(['GET'])
+# @authentication_classes([JWTAuthentication])
+# @permission_classes([IsAuthenticated])
+# def get_all_reponses(request):
     
-    ticketsReponses = TicketReponse.objects.all()
-    serializer = TicketSerializer(ticketsReponses, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)  # Use Response
+#     ticketsReponses = TicketReponse.objects.all()
+#     serializer = TicketSerializer(ticketsReponses, many=True)
+#     return Response(serializer.data, status=status.HTTP_200_OK)  # Use Response
  
 
 
@@ -113,40 +111,43 @@ def create_reply_to_ticket(request,id):
  
     
 
-@api_view(['PUT'])
+@api_view(['PATCH'])
 @authentication_classes([JWTAuthentication])
-@permission_classes([IsAuthenticated, HasRolePermission])
+@permission_classes([IsAuthenticated, HasADZRolePermission])
 def update_ticket(request, id):
     
-    update_ticket.required_role = 'ADZ'
+    
     # permission depends on state we want to update 
+    print('updating ticket with id = '+str(id) )
     try:
         ticket = Ticket.objects.get(id=id)
     except Ticket.DoesNotExist:
-        return Response({"error": "Ticket non trouvé"}, status=status.HTTP_404_NOT_FOUND)
-
-    
+        return Response({"error": "Ticket n'existe pas'"}, status=status.HTTP_404_NOT_FOUND)
     
     data = request.data #this gonna contain mainly ( etat = smthg)
     
-    if data['etat'] == 'ENCOURS':
-        # here we will update the adz field inside ticket, because it will be assigned to it
+    if 'etat' in data and data['etat'] == 'ENCOURS':
+        # here we will update the adz field inside ticket
+        # because it will be assigned to it
         data['adz'] = request.user.id
     
+    #pas necessaire: ----------------------------------------
     data_to_update = {}
-    #verify if thers the field we want to update 
+    #verify if theres the field we want to update 
     # inside the request and inside the ticket model
     #then we put it in the object to update it
     for field in data:
         if hasattr(ticket,field):
             data_to_update[field] = data[field]
+    # -------------------------------------------------------
     
     serializer = TicketSerializer(instance=ticket, data=data_to_update, partial=True)
    
     if serializer.is_valid():
         serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)  # Utiliser Response
-    return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)  # Utiliser Response
+        return Response(serializer.data, status=status.HTTP_200_OK)   
+    
+    return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST) 
 
 
 

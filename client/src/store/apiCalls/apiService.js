@@ -178,7 +178,7 @@ export const apiService = {
   user: {
     get: (url, config) => userRequest.get(url, config),
     post: (url, data, config) => userRequest.post(url, data, config),
-    put: (url, data, config) => userRequest.put(url, data, config),
+    patch: (url, data, config) => userRequest.patch(url, data, config),
     delete: (url, config) => userRequest.delete(url, config),
   },
   userFormData: {

@@ -236,14 +236,12 @@ SIMPLE_JWT = {
 # CELERY_TASK_SERIALIZER = 'json'
 # CELERY_RESULT_SERIALIZER = 'json'
 
+
+
+
 TIME_ZONE = 'Africa/Algiers' 
 
-CELERY_BEAT_SCHEDULE = {
-    'check-ticket-deadlines': {
-        'task': 'tickets.tasks.check_ticket_deadlines',
-        'schedule': crontab(minute=0, hour=0),  # Run daily at midnight
-    },
-}
+
 
 LANGUAGE_CODE = 'fr'
 
@@ -269,3 +267,17 @@ CORS_ORIGIN_WHITELIST = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+# Celery settings
+CELERY_BROKER_URL = "redis://localhost:6379"
+CELERY_RESULT_BACKEND = "redis://localhost:6379"
+
+
+CELERY_BEAT_SCHEDULE = {
+    'check-ticket-deadlines': {
+        'task': 'tickets.tasks.check_ticket_deadlines',
+        'schedule': crontab(),  # Run daily at midnight
+      
+    },
+}

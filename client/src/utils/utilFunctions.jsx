@@ -1,7 +1,7 @@
 export const getDate = (ticket) => {
-  return `${new Date(ticket?.createdAt).getDate()} - ${new Date(
-    ticket?.createdAt
-  ).getMonth()} - ${new Date(ticket?.createdAt).getFullYear()}`;
+  return `${new Date(ticket?.createdAt).getDate()} - ${
+    new Date(ticket?.createdAt).getMonth() + 1
+  } - ${new Date(ticket?.createdAt).getFullYear()}`;
 };
 export const getTime = (ticket) => {
   return `${new Date(ticket?.createdAt).getHours()}:${new Date(
@@ -22,7 +22,7 @@ export const getDDL = (ticket) => {
   return (
     new Date(ticket?.deadline).getDate() +
     " - " +
-    new Date(ticket?.deadline).getMonth() +
+    (new Date(ticket?.deadline).getMonth() + 1) +
     " - " +
     new Date(ticket?.deadline).getFullYear()
   );

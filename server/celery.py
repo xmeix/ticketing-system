@@ -16,6 +16,7 @@ app = Celery('server',
 # app.conf.update(
 #     result_backend='django-db', 
 # ) 
+# app.conf.broker_connection_retry_on_startup = True
 
 app.config_from_object('django.conf:settings', namespace='CELERY')
 

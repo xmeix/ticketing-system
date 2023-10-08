@@ -30,7 +30,7 @@ const Ticket = ({ ticket, closePopup, type }) => {
         <TicketHeader closePopup={closePopup} setReply={setReply} type="new" />
       )}
       {type === "ticketForm" && <TicketReply type="new" ticket={ticket} />}
-      <Toaster position="top-center" reverseOrder={false} />
+      {/* <Toaster position="top-center" reverseOrder={false} /> */}
 
     </div>
   );

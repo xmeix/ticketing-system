@@ -140,7 +140,7 @@ def update_ticket(request, id):
             data_to_update[field] = data[field]
     # -------------------------------------------------------
     
-    serializer = TicketSerializer(instance=ticket, data=data_to_update, partial=True)
+    serializer = MyTicketSerializer(instance=ticket, data=data_to_update, partial=True)
    
     if serializer.is_valid():
         serializer.save()

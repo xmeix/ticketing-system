@@ -14,7 +14,7 @@ export const login = createAsyncThunk(
       return res.data;
     } catch (error) {
       console.log(error.response.data.error);
-      toast.error(error.response.data.error);
+      // toast.error(error.response.data.error);
       return rejectWithValue(error.response.data.error);
     }
   }
@@ -46,7 +46,7 @@ export const logout = createAsyncThunk(
       }
       return res.data;
     } catch (error) {
-      toast.error(error.response.data.error);
+      // toast.error(error.response.data.error);
       return rejectWithValue(error.response.data.error);
     }
   }

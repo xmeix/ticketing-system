@@ -15,14 +15,18 @@ const TicketReply = ({ type, ticket }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const dispatch = useDispatch();
 
+  const emptyFields = () => {
+    objectRef.current.value = "";
+    descriptionRef.current.value = "";
+    deadlineRef.current.value = "";
+    setSelectedFile(null);
+  };
   const handleFileInputChange = (e) => {
     const file = e.target.files[0];
     setSelectedFile(file);
   };
 
   const handleTicketAction = async () => {
- 
-
     let form_data = new FormData();
     if (selectedFile) {
       form_data.append("piecesjointes", selectedFile);
@@ -34,10 +38,10 @@ const TicketReply = ({ type, ticket }) => {
 
       form_data.append("deadline", deadlineRef.current.value);
       form_data.append("objet", objectRef.current.value);
-      
+
       await dispatch(createTicket(form_data));
-      dispatch(getTickets());
-    
+      await dispatch(getTickets());
+      emptyFields();
     } else {
       console.log("here");
 

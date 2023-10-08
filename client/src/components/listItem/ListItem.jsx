@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./ListItem.css";
 import { useDispatch, useSelector } from "react-redux";
 import { TableCell, TableRow, makeStyles, Tooltip } from "@material-ui/core";
-import { prendreTicket } from "../../store/apiCalls/ticket";
+import { getTickets, prendreTicket } from "../../store/apiCalls/ticket";
 import { getDate, getEmail, getName } from "../../utils/utilFunctions";
 const useStyles = makeStyles({
   tableCell: {
@@ -16,14 +16,15 @@ const ListItem = ({ ticket, openPopup }) => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  const takeTicket = () => {
+  const takeTicket = async () => {
     console.log(`taking ticket..by ${user.id}`);
-    dispatch(
+    await dispatch(
       prendreTicket({
         etat: "ENCOURS",
         id: ticket?.id,
       })
     );
+    dispatch(getTickets());
   };
 
   return (

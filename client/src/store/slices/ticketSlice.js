@@ -30,7 +30,9 @@ const ticketSlice = createSlice({
     builder.addCase(createTicket.pending, (state, action) => {
       state.isLoading = true;
       state.error = null;
-      const load = toast.loading("création d'un ticket...");
+      const load = toast.loading("création d'un ticket...", {
+        id: "creating-ticket",
+      });
       toast.dismiss(load);
     });
     builder.addCase(createTicket.fulfilled, (state, action) => {
@@ -42,7 +44,7 @@ const ticketSlice = createSlice({
       // if (!isTicketAlreadyExists) {
       //   state.tickets.push(newTicket);
       // }
-      toast.success("ticket créé!");
+      toast.success("ticket créé!", { id: "ticket-cree" });
     });
     builder.addCase(createTicket.rejected, (state, action) => {
       state.error = action.payload;
@@ -67,32 +69,35 @@ const ticketSlice = createSlice({
     builder.addCase(prendreTicket.pending, (state, action) => {
       state.isLoading = true;
       state.error = null;
-      const load = toast.loading("un moment s'il vous plait...");
+      const load = toast.loading("un moment s'il vous plait...", {
+        id: "taking-ticket",
+      });
       toast.dismiss(load);
     });
     builder.addCase(prendreTicket.fulfilled, (state, action) => {
       state.isLoading = false;
 
-      const updatedTicket = action.payload;
-      const filteredTickets = state.tickets.filter(
-        (ticket) => ticket.id !== updatedTicket.id
-      );
+      // const updatedTicket = action.payload;
+      // const filteredTickets = state.tickets.filter(
+      //   (ticket) => ticket.id !== updatedTicket.id
+      // );
 
-      filteredTickets.push(updatedTicket);
-      state.tickets = filteredTickets;
-
-      toast.success("ticket pris.");
+      // filteredTickets.push(updatedTicket);
+      // state.tickets = filteredTickets;
+      toast.success("ticket pris.", { id: "ticket-pris" });
     });
     builder.addCase(prendreTicket.rejected, (state, action) => {
       state.error = action.payload;
       state.isLoading = false;
-      toast.error("oups, vous ne pouvez prendre ce ticket!");
+      toast.error("oups, vous ne pouvez prendre ce ticket!", {
+        id: "ticket-error",
+      });
     });
     // SEND REPLY
     builder.addCase(createReply.pending, (state, action) => {
       state.isLoading = true;
       state.error = null;
-      const load = toast.loading("Envoi du ticket...");
+      const load = toast.loading("Envoi du ticket...", { id: "envoi-ticket" });
       toast.dismiss(load);
     });
     builder.addCase(createReply.fulfilled, (state, action) => {
@@ -104,12 +109,12 @@ const ticketSlice = createSlice({
       if (!ReplyAlreadyExists) {
         state.replies.push(newReply);
       }
-      toast.success("Ticket Envoyé!");
+      toast.success("Ticket Envoyé!", { id: "ticket-envoyé" });
     });
     builder.addCase(createReply.rejected, (state, action) => {
       state.error = action.payload;
       state.isLoading = false;
-      toast.error(action.payload);
+      toast.error(action.payload, { id: "error" });
     });
   },
 });

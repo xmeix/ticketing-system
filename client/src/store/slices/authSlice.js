@@ -30,7 +30,7 @@ const authSlice = createSlice({
     builder.addCase(login.pending, (state, action) => {
       state.loading = true;
       state.error = null;
-      const load = toast.loading("Connexion...");
+      const load = toast.loading("Connexion...", { id: "connexion" });
       toast.dismiss(load);
     });
     builder.addCase(login.fulfilled, (state, action) => {
@@ -40,14 +40,14 @@ const authSlice = createSlice({
       Cookies.set("access_token", action.payload.access_token);
       Cookies.set("refresh_token", action.payload.refresh_token);
       localStorage.setItem("isLoggedIn", true);
-      toast.success("Connexion réussie");
+      toast.success("Connexion réussie", { id: "connexion-success" });
     });
     builder.addCase(login.rejected, (state, action) => {
       state.error = action.payload;
       state.loading = false;
       state.isLoggedIn = false;
       state.user = null;
-      toast.error(action.payload);
+      toast.error(action.payload, { id: "error" });
     });
     // register
     builder.addCase(register.pending, (state) => {
@@ -56,20 +56,18 @@ const authSlice = createSlice({
     });
     builder.addCase(register.fulfilled, (state) => {
       state.loading = false;
-      toast.success("Inscription réussie");
+      toast.success("Inscription réussie", { id: "register-success" });
     });
     builder.addCase(register.rejected, (state, action) => {
       state.error = action.payload;
       state.loading = false;
-      toast.error(action.payload);
-      const load = toast.loading("Enregistrement...");
-      toast.dismiss(load);
+      toast.error(action.payload, { id: "error" });
     });
     // logout
     builder.addCase(logout.pending, (state) => {
       state.loading = true;
       state.error = null;
-      const load = toast.loading("Déconnexion...");
+      const load = toast.loading("Déconnexion...", { id: "deconnexion" });
       toast.dismiss(load);
     });
     builder.addCase(logout.fulfilled, (state) => {
@@ -77,15 +75,16 @@ const authSlice = createSlice({
       state.isLoggedIn = false;
       state.user = null;
       localStorage.setItem("isLoggedIn", false);
-      // Cookies.remove("csrftoken", { path: "" });
-      toast.success("Au revoir!");
+      Cookies.remove("access_token", { path: "" });
+      Cookies.remove("refresh_token", { path: "" });
+      toast.success("Au revoir!", { id: "see-ya" });
     });
     builder.addCase(logout.rejected, (state, action) => {
       state.error = action.payload;
       state.loading = false;
       state.isLoggedIn = false;
       state.user = null;
-      toast.error(action.payload);
+      toast.error(action.payload, { id: "error" });
 
       //   state.token = null;
     });

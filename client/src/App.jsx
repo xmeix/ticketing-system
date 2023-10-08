@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar/Navbar";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import RegisterPage from "./pages/admin/RegisterPage";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const { isLoggedIn, user } = useSelector((state) => state.auth);
@@ -19,6 +20,7 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
         )}
       </Routes>
+      <Toaster position="top-center" reverseOrder={false} />
     </>
   );
 }

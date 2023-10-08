@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     #own
     'tickets',
     'authentication',
-    
+    'notifications',
     #third-party
     'rest_framework',
     'rest_framework_simplejwt',

@@ -10,6 +10,8 @@ from .permissions import HasRolePermission,HasADZRolePermission,HasBothRolePermi
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.core.files.storage import FileSystemStorage
 from django.db.models import Q 
+from notifications.models import Notification
+from authentication.models import User
 
 
 @api_view(['GET'])
@@ -17,39 +19,24 @@ from django.db.models import Q
 @permission_classes([IsAuthenticated])
 def get_all_tickets(request):
     
-    # print(" tickets ... ")
-    tickets = Ticket.objects.all()
-    # ticketsReponses = TicketReponse.objects.all()
+    tickets = Ticket.objects.all() 
 
     filtered_tickets = []
-    # filtered_replies = []
+    
     print(request.user.role)
     if request.user.role == "ADZ": 
         filtered_tickets = Ticket.objects.filter(Q(etat="OUVERT") | Q(adz=request.user.id))
-        # print(filtered_tickets)
-        # filtered_replies = TicketReponse.objects.filter(ticket__in=filtered_tickets)
+        
     elif request.user.role == "AFR": 
         filtered_tickets = Ticket.objects.filter(afr=request.user.id)
-        # filtered_replies = TicketReponse.objects.filter(ticket__in=filtered_tickets)
+        
     else:
         filtered_tickets = tickets
-        # filtered_replies = ticketsReponses
         
-    # repSerializer = TicketSerializer(filtered_replies, many=True)
     serializer = TicketSerializer(filtered_tickets, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK) 
 
-
-# @api_view(['GET'])
-# @authentication_classes([JWTAuthentication])
-# @permission_classes([IsAuthenticated])
-# def get_all_reponses(request):
-    
-#     ticketsReponses = TicketReponse.objects.all()
-#     serializer = TicketSerializer(ticketsReponses, many=True)
-#     return Response(serializer.data, status=status.HTTP_200_OK)  # Use Response
  
-
 
 @api_view(['POST'])
 @authentication_classes([JWTAuthentication])
@@ -90,7 +77,6 @@ def create_ticket(request):
 @permission_classes([IsAuthenticated, HasADZRolePermission])
 def create_reply_to_ticket(request,id):
         
-        
     reply_data = request.data.copy()
     
     # handle saving file:
@@ -115,6 +101,14 @@ def create_reply_to_ticket(request,id):
         ticket.etat = 'RESOLU'
         ticket.reply = reply
         ticket.save()
+        
+        
+        # _______________________________create_notification______________________________
+        destinataire = User.objects.get(id=ticket.afr)
+        notification = Notification(content="Vous avez reçu un ticket de la part de "+ request.user.first_name + " " + request.user.last_name, to=destinataire)
+        notification.save()
+        # _________________________________________________________________________________
+        
         
         return Response(reply_serializer.data, status=status.HTTP_201_CREATED)
 

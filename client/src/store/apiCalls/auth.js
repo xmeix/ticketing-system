@@ -42,8 +42,8 @@ export const logout = createAsyncThunk(
       const res = await apiService.user.post("api/auth/logout/");
       console.log("logout");
       if (res.status === 200) {
-        Cookies.remove("access_token", { path: "" });
-        Cookies.remove("refresh_token", { path: "" });
+        Cookies.remove("access_token", { path: "/" });
+        Cookies.remove("refresh_token", { path: "/" });
       }
       return res.data;
     } catch (error) {

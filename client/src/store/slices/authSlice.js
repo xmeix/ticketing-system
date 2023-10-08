@@ -71,12 +71,15 @@ const authSlice = createSlice({
       toast.dismiss(load);
     });
     builder.addCase(logout.fulfilled, (state) => {
+      localStorage.setItem("isLoggedIn", false);
+      Cookies.set("refresh_token", "");
+      Cookies.set("access_token", "");
+      Cookies.remove("access_token", { path: "/" });
+      Cookies.remove("refresh_token", { path: "/" });
       state.loading = false;
       state.isLoggedIn = false;
       state.user = null;
-      localStorage.setItem("isLoggedIn", false);
-      Cookies.remove("access_token");
-      Cookies.remove("refresh_token");
+
       toast.success("Au revoir!", { id: "see-ya" });
     });
     builder.addCase(logout.rejected, (state, action) => {

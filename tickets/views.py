@@ -104,8 +104,8 @@ def create_reply_to_ticket(request,id):
         
         
         # _______________________________create_notification______________________________
-        destinataire = User.objects.get(id=ticket.afr)
-        notification = Notification(content="Vous avez reçu un ticket de la part de "+ request.user.first_name + " " + request.user.last_name, to=destinataire)
+        destinataire = User.objects.get(id=ticket.afr.id)
+        notification = Notification(content="Vous avez reçu un ticket de la part de "+ request.user.first_name + " " + request.user.last_name, destinataire=destinataire)
         notification.save()
         # _________________________________________________________________________________
         

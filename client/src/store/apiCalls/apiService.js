@@ -43,6 +43,20 @@ userRequest.interceptors.request.use(
     const token = await getJwtTokenFromCookie();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
+      console.log("auth => ", `Bearer ${token}`);
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+userRequestWdata.interceptors.request.use(
+  async (config) => {
+    const token = await getJwtTokenFromCookie();
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+      console.log("auth => ", `Bearer ${token}`);
     }
     return config;
   },

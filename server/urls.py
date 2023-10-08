@@ -24,7 +24,7 @@ urlpatterns = [
     # path('api/tickets/', include('tickets.urls')),
     path('api/auth/', include('authentication.urls')),
     path('api/tickets/', include('tickets.urls')),
-    path('api/notifications/', include('tickets.urls')),
+    path('api/notifications/', include('notifications.urls')),
 ]
 
 if settings.DEBUG:

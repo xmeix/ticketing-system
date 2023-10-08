@@ -59,7 +59,8 @@ const TicketReply = ({ type, ticket, closePopup }) => {
             reply: form_data,
           })
         );
-        dispatch(getTickets());
+        await dispatch(getTickets());
+
         closePopup();
       } else {
         toast.error("Veuillez remplir les champs nécessaires..", {

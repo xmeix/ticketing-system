@@ -1,12 +1,12 @@
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
-import Home from "./pages/home/home";
+import { Routes, Route } from "react-router-dom"; 
 import LoginPage from "./pages/loginPage/LoginPage";
 import Navbar from "./components/Navbar/Navbar";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import RegisterPage from "./pages/admin/RegisterPage";
 import { Toaster } from "react-hot-toast";
+import Home from "./pages/home/Home";
 
 function App() {
   const { isLoggedIn, user } = useSelector((state) => state.auth);

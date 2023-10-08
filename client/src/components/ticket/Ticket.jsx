@@ -24,12 +24,14 @@ const Ticket = ({ ticket, closePopup, type }) => {
         <TicketContent ticket={ticket} type="normal-ticket" />
       )}
       {type === "ticket" && reply && user?.role === "ADZ" && (
-        <TicketReply type="reply" ticket={ticket} />
+        <TicketReply type="reply" ticket={ticket} closePopup={closePopup} />
       )}
       {type === "ticketForm" && (
         <TicketHeader closePopup={closePopup} setReply={setReply} type="new" />
       )}
-      {type === "ticketForm" && <TicketReply type="new" ticket={ticket} />}
+      {type === "ticketForm" && (
+        <TicketReply type="new" ticket={ticket} closePopup={closePopup} />
+      )}
       {type === "ticket" && ticket?.reply && (
         <TicketContent
           ticket={ticket}

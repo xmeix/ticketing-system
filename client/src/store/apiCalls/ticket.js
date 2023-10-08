@@ -17,8 +17,8 @@ export const prendreTicket = createAsyncThunk(
       );
       return res.data;
     } catch (error) {
-      console.log(error.response.data.error);
-      return rejectWithValue(error.response.data.error);
+      console.log(error.response.data.detail);
+      return rejectWithValue(error.response.data.detail);
     }
   }
 );
@@ -46,8 +46,8 @@ export const createTicket = createAsyncThunk(
       );
       return res.data;
     } catch (error) {
-      console.log(error.response.data.error);
-      return rejectWithValue(error.response.data.error);
+      console.log(error.response.data.detail);
+      return rejectWithValue(error.response.data.detail);
     }
   }
 );
@@ -65,8 +65,9 @@ export const createReply = createAsyncThunk(
       );
       return res.data;
     } catch (error) {
-      console.log(error.response.data.error);
-      return rejectWithValue(error.response.data.error);
+      console.log(error);
+      console.log(error.response.data.detail);
+      return rejectWithValue(error.response.data.detail);
     }
   }
 );

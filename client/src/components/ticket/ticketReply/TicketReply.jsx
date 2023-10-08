@@ -9,20 +9,17 @@ import {
 import toast from "react-hot-toast";
 import TicketContent from "../ticketContent/TicketContent";
 
-const TicketReply = ({ type, ticket }) => {
-  const objectRef = useRef();
-  const descriptionRef = useRef();
-  const deadlineRef = useRef();
-  const attachmentRef = useRef();
+const TicketReply = ({ type, ticket, closePopup }) => {
+  const [object, setObjet] = useState("");
+  const [description, setDescription] = useState("");
+  const [deadline, setDeadline] = useState(
+    new Date(Date.now() + 86400000).toISOString().split("T")[0]
+  );
+  const [attachment, setAttachment] = useState("");
+
   const [selectedFile, setSelectedFile] = useState(null);
   const dispatch = useDispatch();
 
-  const emptyFields = () => {
-    // objectRef.current.value = "";
-    // descriptionRef.current.value = "";
-    // deadlineRef.current.value = "";
-    // setSelectedFile(null);
-  };
   const handleFileInputChange = (e) => {
     const file = e.target.files[0];
     setSelectedFile(file);
@@ -35,18 +32,19 @@ const TicketReply = ({ type, ticket }) => {
     if (selectedFile) {
       form_data.append("piecesjointes", selectedFile);
     }
-    form_data.append("description", descriptionRef.current.value);
+    form_data.append("description", description);
 
     if (type === "new") {
-      form_data.append("deadline", deadlineRef.current.value);
-      form_data.append("objet", objectRef.current.value);
+      form_data.append("deadline", deadline);
+      form_data.append("objet", object);
       if (
-        deadlineRef.current.value &&
-        objectRef.current.value &&
-        descriptionRef.current.value
+        object.trim() !== "" &&
+        description.trim() !== "" &&
+        deadline.trim() !== ""
       ) {
         await dispatch(createTicket(form_data));
-        dispatch(getTickets());
+        await dispatch(getTickets());
+        closePopup();
       } else {
         toast.error("Veuillez remplir les champs nécessaires..", {
           id: "reply-empty",
@@ -54,7 +52,7 @@ const TicketReply = ({ type, ticket }) => {
       }
     } else {
       form_data.append("objet", `Re: ${ticket?.objet}`);
-      if (descriptionRef.current.value) {
+      if (description.trim() !== "") {
         await dispatch(
           createReply({
             id: ticket?.id,
@@ -62,6 +60,7 @@ const TicketReply = ({ type, ticket }) => {
           })
         );
         dispatch(getTickets());
+        closePopup();
       } else {
         toast.error("Veuillez remplir les champs nécessaires..", {
           id: "reply-empty",
@@ -69,7 +68,6 @@ const TicketReply = ({ type, ticket }) => {
       }
 
       // dispatch(getTickets())
-      // dispatch(getReplies())
     }
   };
 
@@ -86,7 +84,7 @@ const TicketReply = ({ type, ticket }) => {
               type="text"
               className="input-text"
               placeholder="Objet ticket"
-              ref={objectRef}
+              onChange={(e) => setObjet(e.target.value)}
             />
           </div>
         )}
@@ -99,7 +97,7 @@ const TicketReply = ({ type, ticket }) => {
             name="reply-text"
             rows="4"
             placeholder="Description de ticket..."
-            ref={descriptionRef}
+            onChange={(e) => setDescription(e.target.value)}
           ></textarea>
         </div>
         {type === "new" && (
@@ -109,7 +107,7 @@ const TicketReply = ({ type, ticket }) => {
               type="date"
               id="deadline"
               name="deadline"
-              ref={deadlineRef}
+              onChange={(e) => setDeadline(e.target.value)}
               min={new Date(Date.now() + 86400000).toISOString().split("T")[0]}
             />
           </div>
@@ -129,7 +127,6 @@ const TicketReply = ({ type, ticket }) => {
             type="file"
             id="attachment"
             name="piecesjointes"
-            ref={attachmentRef}
             onChange={handleFileInputChange}
           />
         </div>

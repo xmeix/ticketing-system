@@ -20,7 +20,7 @@ const Navbar = () => {
   return (
     <div className="navbar flex-row justify-between align-center">
       <NavLink to={"/"} className="nav-title navlink">
-        TicketTrac
+        TicketTrac.
       </NavLink>
       <div className="nav-params flex-row align-center">
         <div className="nav-user">

@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { apiService } from "./apiService";
+import { apiService, getRefreshTokenFromCookie } from "./apiService";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
@@ -11,7 +11,7 @@ export const login = createAsyncThunk(
     const { rejectWithValue } = thunkAPI;
     try {
       const res = await apiService.public.post("api/auth/login/", body);
-
+     
       return res.data;
     } catch (error) {
       console.log(error.response.data.error);

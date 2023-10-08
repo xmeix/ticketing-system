@@ -17,7 +17,7 @@ const ListItem = ({ ticket, openPopup }) => {
   const dispatch = useDispatch();
 
   const takeTicket = async () => {
-    console.log(`taking ticket..by ${user.id}`);
+    // console.log(`taking ticket..by ${user.id}`);
     await dispatch(
       prendreTicket({
         etat: "ENCOURS",

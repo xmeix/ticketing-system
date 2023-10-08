@@ -117,6 +117,7 @@ def create_reply_to_ticket(request,id):
         ticket.save()
         
         return Response(reply_serializer.data, status=status.HTTP_201_CREATED)
+
     return Response(reply_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     

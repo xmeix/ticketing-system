@@ -89,7 +89,7 @@ userRequest.interceptors.response.use(
                 "Bearer " + response.data.access;
               originalRequest.headers["Authorization"] =
                 "Bearer " + response.data.access;
-              console.log("new access ", response.data.access);
+              // console.log("new access ", response.data.access);
               // console.log(userRequest(originalRequest));
               return userRequest(originalRequest);
             })

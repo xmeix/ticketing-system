@@ -75,8 +75,8 @@ const authSlice = createSlice({
       state.isLoggedIn = false;
       state.user = null;
       localStorage.setItem("isLoggedIn", false);
-      Cookies.remove("access_token", { path: "" });
-      Cookies.remove("refresh_token", { path: "" });
+      Cookies.remove("access_token");
+      Cookies.remove("refresh_token");
       toast.success("Au revoir!", { id: "see-ya" });
     });
     builder.addCase(logout.rejected, (state, action) => {

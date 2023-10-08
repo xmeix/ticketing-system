@@ -1,12 +1,13 @@
 from django.utils import timezone
 from .models import Ticket, EtatTicket
 from server.celery import app
+from django.db.models import Q  # Import Q for complex queries
 
 @app.task
 def check_ticket_deadlines():
     # Retrieve all open tickets with a deadline that has passed
     # print("hello world")
-    expired_tickets = Ticket.objects.filter(etat__not=EtatTicket.EXPIRE, deadline__lt=timezone.now())
+    expired_tickets = Ticket.objects.filter(~Q(etat=EtatTicket.EXPIRE), deadline__lt=timezone.now())
     print(expired_tickets)
     for ticket in expired_tickets:
         # Check if the ticket has been opened by a user

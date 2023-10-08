@@ -7,6 +7,7 @@ import {
   getTickets,
 } from "../../../store/apiCalls/ticket";
 import toast from "react-hot-toast";
+import TicketContent from "../ticketContent/TicketContent";
 
 const TicketReply = ({ type, ticket }) => {
   const objectRef = useRef();
@@ -28,7 +29,7 @@ const TicketReply = ({ type, ticket }) => {
   };
 
   const handleTicketAction = async () => {
-    console.log("handleTicket", ticket);
+    // console.log("handleTicket", ticket);
 
     let form_data = new FormData();
     if (selectedFile) {
@@ -39,19 +40,28 @@ const TicketReply = ({ type, ticket }) => {
     if (type === "new") {
       form_data.append("deadline", deadlineRef.current.value);
       form_data.append("objet", objectRef.current.value);
-
-      await dispatch(createTicket(form_data));
-      await dispatch(getTickets());
-      emptyFields();
+      if (
+        deadlineRef.current.value &&
+        objectRef.current.value &&
+        descriptionRef.current.value
+      ) {
+        await dispatch(createTicket(form_data));
+        dispatch(getTickets());
+      } else {
+        toast.error("Veuillez remplir les champs nécessaires..", {
+          id: "reply-empty",
+        });
+      }
     } else {
       form_data.append("objet", `Re: ${ticket?.objet}`);
       if (descriptionRef.current.value) {
-        dispatch(
+        await dispatch(
           createReply({
             id: ticket?.id,
             reply: form_data,
           })
         );
+        dispatch(getTickets());
       } else {
         toast.error("Veuillez remplir les champs nécessaires..", {
           id: "reply-empty",
@@ -128,11 +138,6 @@ const TicketReply = ({ type, ticket }) => {
           {type === "new" ? "Créer" : "Envoyer"}
         </button>
       </div>
-      {/* this ticket content gonna contain the reply content not the ticket */}
-      {/* this ticket content gonna contain the reply content not the ticket */}
-      {/* {type === "ticket" && (
-        <TicketContent ticket={ticket} type="normal-ticket" />
-      )} */}
     </div>
   );
 };

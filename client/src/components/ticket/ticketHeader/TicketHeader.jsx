@@ -9,7 +9,7 @@ const TicketHeader = ({ closePopup, setReply, type, ticket }) => {
       <CloseRoundedIcon className="icon-btn" onClick={() => closePopup()} />
       {type === "reply" &&
         user?.role === "ADZ" &&
-        ticket?.adz?.id === user?.id && (
+        ticket?.adz?.id === user?.id && ticket?.reply === null && (
           <button onClick={() => setReply(true)}>répondre</button>
         )}
     </div>

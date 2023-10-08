@@ -3,6 +3,7 @@ import { apiService } from "./apiService";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
+import { reset } from "../slices/authSlice";
 
 export const login = createAsyncThunk(
   "api/auth/login/",
@@ -46,7 +47,7 @@ export const logout = createAsyncThunk(
       }
       return res.data;
     } catch (error) {
-      // toast.error(error.response.data.error);
+      console.log(error.response.data.error);
       return rejectWithValue(error.response.data.error);
     }
   }

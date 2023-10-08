@@ -13,3 +13,12 @@ export const getEmail = (ticket, type) => {
   if (type === "afr") return `${ticket?.afr?.email}`;
   else if (type === "adz") return `${ticket?.adz?.email}`;
 };
+export const getDDL = (ticket) => {
+  return (
+    new Date(ticket?.deadline).getDate() +
+    " - " +
+    new Date(ticket?.deadline).getMonth() +
+    " - " +
+    new Date(ticket?.deadline).getFullYear()
+  );
+};

@@ -1,11 +1,21 @@
 import React from "react";
 import "./TicketContent.css";
-import { getDate, getEmail, getName } from "../../../utils/utilFunctions";
+import {
+  getDDL,
+  getDate,
+  getEmail,
+  getName,
+} from "../../../utils/utilFunctions";
 
-const TicketContent = ({ ticket, type }) => {
+const TicketContent = ({ ticket, type, ticketResponse }) => {
   const handleFileDownload = () => {
-    if (ticket?.piecesjointes) {
+    if (type !== "reply-ticket" && ticket?.piecesjointes) {
       window.open("http://localhost:8000/" + ticket?.piecesjointes, "_blank");
+    } else if (type === "reply-ticket" && ticketResponse?.piecesjointes) {
+      window.open(
+        "http://localhost:8000/" + ticketResponse?.piecesjointes,
+        "_blank"
+      );
     }
   };
   function getFileNameFromURL(url) {
@@ -15,41 +25,46 @@ const TicketContent = ({ ticket, type }) => {
   }
 
   return (
-    <div className="ticket-content">
+    <div className={`ticket-content ${type === "reply-ticket" && "reponse"}`}>
       <div className="ticket-info">
         <div className="ticket-objet">
-          <span>Objet:</span> {ticket?.objet}
+          <span>Objet:</span>{" "}
+          {type === "reply-ticket" ? ticketResponse?.objet : ticket?.objet}
         </div>
-        <div className={`ticket-etat ticket-${ticket?.etat}`}>
-          {ticket?.etat}
+        {type !== "reply-ticket" && (
+          <div className={`ticket-etat ticket-${ticket?.etat}`}>
+            {ticket?.etat}
+          </div>
+        )}
+      </div>
+      {type !== "reply-ticket" && (
+        <div className="ticket-deadline">
+          <span>Date limite:</span>{" "}
+          <span className="deadline">{getDDL(ticket)}</span>
         </div>
-      </div>
-      <div className="ticket-deadline">
-        <span>Date limite:</span>{" "}
-        <span className="deadline">
-          {new Date(ticket?.deadline).getDate() +
-            " - " +
-            new Date(ticket?.deadline).getMonth() +
-            " - " +
-            new Date(ticket?.deadline).getFullYear()}
-        </span>
-      </div>
+      )}
       <div className="ticket-description">
         <span>Description:</span>
 
-        <div className="desc-ticket">{ticket?.description}</div>
+        <div className="desc-ticket">
+          {type === "reply-ticket"
+            ? ticketResponse?.description
+            : ticket?.description}
+        </div>
       </div>
-
-      {ticket?.piecesjointes && (
+      {((type !== "reply-ticket" && ticket?.piecesjointes) ||
+        (type === "reply-ticket" && ticketResponse?.piecesjointes)) && (
         <div className="files-attached">
           <div className="file-name">
-            {getFileNameFromURL(ticket.piecesjointes)}
+            {type === "reply-ticket"
+              ? getFileNameFromURL(ticketResponse?.piecesjointes)
+              : getFileNameFromURL(ticket?.piecesjointes)}
           </div>
           <button className="download-file" onClick={handleFileDownload}>
             Télécharger
           </button>
         </div>
-      )}
+      )}{" "}
       <div className="flex-row justify-between">
         <div className="ticket-creator flex-column">
           <span>Créé Par:</span>{" "}
@@ -70,8 +85,7 @@ const TicketContent = ({ ticket, type }) => {
           {getDate(ticket)}
         </div>
       </div>
-
-      {ticket?.adz !== null && (
+      {ticket?.adz !== null && type === "normal-ticket" && (
         <>
           <hr />
           <div className="flex-row justify-between">

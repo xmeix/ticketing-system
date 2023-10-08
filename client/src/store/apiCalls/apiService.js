@@ -6,13 +6,13 @@ const API_BASE_URL = "http://127.0.0.1:8000/";
 export const getJwtTokenFromCookie = () => {
   const cookie = Cookies.get("access_token");
 
-  console.log("jwt=", cookie);
+  // console.log("jwt=", cookie);
   return cookie ? cookie : undefined;
 };
 export const getRefreshTokenFromCookie = () => {
   const cookie = Cookies.get("refresh_token");
 
-  console.log("refresh=", cookie);
+  // console.log("refresh=", cookie);
   return cookie ? cookie : undefined;
 };
 
@@ -68,16 +68,16 @@ userRequest.interceptors.response.use(
       error.response.status === 401 &&
       error.response.statusText === "Unauthorized"
     ) {
-      console.log("token not valid, checking for refresh...");
+      // console.log("token not valid, checking for refresh...");
       const refreshToken = Cookies.get("refresh_token");
-      console.log("get refresh: ", refreshToken);
+      // console.log("get refresh: ", refreshToken);
 
       if (refreshToken) {
         const tokenParts = JSON.parse(atob(refreshToken.split(".")[1]));
         // exp date in token is expressed in seconds, while now() returns milliseconds:
         const now = Math.ceil(Date.now() / 1000);
-        console.log(tokenParts.exp);
-        console.log(tokenParts.exp > now);
+        // console.log(tokenParts.exp);
+        // console.log(tokenParts.exp > now);
         if (tokenParts.exp > now) {
           return userRequest
             .post("api/auth/token/refresh/", { refresh: refreshToken })
@@ -97,11 +97,11 @@ userRequest.interceptors.response.use(
               console.log(err);
             });
         } else {
-          console.log("Refresh token is expired", tokenParts.exp, now);
+          // console.log("Refresh token is expired", tokenParts.exp, now);
           window.location.href = "/login/";
         }
       } else {
-        console.log("Refresh token not available.");
+        // console.log("Refresh token not available.");
         window.location.href = "/login/";
       }
     }
@@ -127,16 +127,16 @@ userRequestWdata.interceptors.response.use(
       error.response.status === 401 &&
       error.response.statusText === "Unauthorized"
     ) {
-      console.log("token not valid, checking for refresh...");
+      // console.log("token not valid, checking for refresh...");
       const refreshToken = Cookies.get("refresh_token");
-      console.log("get refresh: ", refreshToken);
+      // console.log("get refresh: ", refreshToken);
 
       if (refreshToken) {
         const tokenParts = JSON.parse(atob(refreshToken.split(".")[1]));
         // exp date in token is expressed in seconds, while now() returns milliseconds:
         const now = Math.ceil(Date.now() / 1000);
-        console.log(tokenParts.exp);
-        console.log(tokenParts.exp > now);
+        // console.log(tokenParts.exp);
+        // console.log(tokenParts.exp > now);
         if (tokenParts.exp > now) {
           return userRequestWdata
             .post("api/auth/token/refresh/", { refresh: refreshToken })
@@ -148,7 +148,7 @@ userRequestWdata.interceptors.response.use(
                 "Bearer " + response.data.access;
               originalRequest.headers["Authorization"] =
                 "Bearer " + response.data.access;
-              console.log("new access ", response.data.access);
+              // console.log("new access ", response.data.access);
               // console.log(userRequestWdata(originalRequest));
               return userRequestWdata(originalRequest);
             })
@@ -156,11 +156,11 @@ userRequestWdata.interceptors.response.use(
               console.log(err);
             });
         } else {
-          console.log("Refresh token is expired", tokenParts.exp, now);
+          // console.log("Refresh token is expired", tokenParts.exp, now);
           window.location.href = "/login/";
         }
       } else {
-        console.log("Refresh token not available.");
+        // console.log("Refresh token not available.");
         window.location.href = "/login/";
       }
     }

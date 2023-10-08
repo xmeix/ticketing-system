@@ -9,7 +9,7 @@ import { Toaster } from "react-hot-toast";
 const Ticket = ({ ticket, closePopup, type }) => {
   const [reply, setReply] = useState(false);
   const { user } = useSelector((state) => state.auth);
-  console.log("ticket data ", ticket);
+
   return (
     <div className="ticket-popup">
       {type === "ticket" && (
@@ -30,6 +30,13 @@ const Ticket = ({ ticket, closePopup, type }) => {
         <TicketHeader closePopup={closePopup} setReply={setReply} type="new" />
       )}
       {type === "ticketForm" && <TicketReply type="new" ticket={ticket} />}
+      {type === "ticket" && ticket?.reply && (
+        <TicketContent
+          ticket={ticket}
+          ticketResponse={ticket?.reply}
+          type="reply-ticket"
+        />
+      )}
     </div>
   );
 };

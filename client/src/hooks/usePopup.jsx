@@ -6,6 +6,7 @@ const usePopup = () => {
   const [data, setData] = useState(null);
   const [type, setType] = useState("ticket");
   const openPopup = (data, type) => {
+    console.log("data popup", data);
     setIsOpen(true);
     setData(data);
     setType(type);

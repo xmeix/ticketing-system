@@ -10,7 +10,7 @@ const ticketSlice = createSlice({
   name: "ticket",
   initialState: {
     tickets: [],
-    replies: [],
+    // replies: [],
     isLoading: false,
     error: null,
   },
@@ -20,7 +20,7 @@ const ticketSlice = createSlice({
     // },
     resetTicket: (state, action) => {
       state.tickets = [];
-      state.replies = [];
+      // state.replies = [];
       state.error = null;
       state.isLoading = false;
     },
@@ -58,8 +58,8 @@ const ticketSlice = createSlice({
     });
     builder.addCase(getTickets.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.tickets = action.payload.tickets;
-      state.replies = action.payload.replies;
+      state.tickets = action.payload;
+      // state.replies = action.payload.replies;
     });
     builder.addCase(getTickets.rejected, (state, action) => {
       state.error = action.payload;
@@ -76,12 +76,10 @@ const ticketSlice = createSlice({
     });
     builder.addCase(prendreTicket.fulfilled, (state, action) => {
       state.isLoading = false;
-
       // const updatedTicket = action.payload;
       // const filteredTickets = state.tickets.filter(
       //   (ticket) => ticket.id !== updatedTicket.id
       // );
-
       // filteredTickets.push(updatedTicket);
       // state.tickets = filteredTickets;
       toast.success("ticket pris.", { id: "ticket-pris" });
@@ -102,13 +100,13 @@ const ticketSlice = createSlice({
     });
     builder.addCase(createReply.fulfilled, (state, action) => {
       state.isLoading = false;
-      const newReply = action.payload;
-      const ReplyAlreadyExists = state.replies.some(
-        (reply) => reply.id === newReply.id
-      );
-      if (!ReplyAlreadyExists) {
-        state.replies.push(newReply);
-      }
+      // const newReply = action.payload;
+      // const ReplyAlreadyExists = state.replies.some(
+      //   (reply) => reply.id === newReply.id
+      // );
+      // if (!ReplyAlreadyExists) {
+      //   state.replies.push(newReply);
+      // }
       toast.success("Ticket Envoyé!", { id: "ticket-envoyé" });
     });
     builder.addCase(createReply.rejected, (state, action) => {

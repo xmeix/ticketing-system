@@ -2,9 +2,18 @@ from rest_framework import serializers
 from tickets.models import Ticket,TicketReponse
 from authentication.serializers import UserRegistrationSerializer
 from authentication.models import User
+
+
+
+class TicketReponseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TicketReponse
+        fields = '__all__'
+
 class TicketSerializer(serializers.ModelSerializer):
     adz = UserRegistrationSerializer(required= False)
     afr = UserRegistrationSerializer(required= False)
+    reply = TicketReponseSerializer(required= False)
 
     class Meta:
         model = Ticket
@@ -16,8 +25,3 @@ class MyTicketSerializer(serializers.ModelSerializer):
         model = Ticket
         fields = '__all__'
         
-
-class TicketReponseSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = TicketReponse
-        fields = '__all__'

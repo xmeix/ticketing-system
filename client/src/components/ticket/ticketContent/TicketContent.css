@@ -66,8 +66,10 @@
   border: 1px solid #ccc;
   padding: 10px 1.5em;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 1em;
   font-size: 13px;
 }
 

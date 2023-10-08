@@ -19,25 +19,25 @@ def get_all_tickets(request):
     
     # print(" tickets ... ")
     tickets = Ticket.objects.all()
-    ticketsReponses = TicketReponse.objects.all()
+    # ticketsReponses = TicketReponse.objects.all()
 
     filtered_tickets = []
-    filtered_replies = []
+    # filtered_replies = []
     print(request.user.role)
     if request.user.role == "ADZ": 
         filtered_tickets = Ticket.objects.filter(Q(etat="OUVERT") | Q(adz=request.user.id))
-        print(filtered_tickets)
-        filtered_replies = TicketReponse.objects.filter(ticket__in=filtered_tickets)
+        # print(filtered_tickets)
+        # filtered_replies = TicketReponse.objects.filter(ticket__in=filtered_tickets)
     elif request.user.role == "AFR": 
         filtered_tickets = Ticket.objects.filter(afr=request.user.id)
-        filtered_replies = TicketReponse.objects.filter(ticket__in=filtered_tickets)
+        # filtered_replies = TicketReponse.objects.filter(ticket__in=filtered_tickets)
     else:
         filtered_tickets = tickets
-        filtered_replies = ticketsReponses
+        # filtered_replies = ticketsReponses
         
-    repSerializer = TicketSerializer(filtered_replies, many=True)
+    # repSerializer = TicketSerializer(filtered_replies, many=True)
     serializer = TicketSerializer(filtered_tickets, many=True)
-    return Response({"tickets": serializer.data, "replies": repSerializer.data}, status=status.HTTP_200_OK) 
+    return Response(serializer.data, status=status.HTTP_200_OK) 
 
 
 # @api_view(['GET'])
@@ -87,28 +87,43 @@ def create_ticket(request):
  
 @api_view(['POST'])
 @authentication_classes([JWTAuthentication])
-@permission_classes([IsAuthenticated, HasRolePermission])
+@permission_classes([IsAuthenticated, HasADZRolePermission])
 def create_reply_to_ticket(request,id):
-    
-    create_reply_to_ticket.required_role = 'ADZ'
-    
-    reply_data = request.data
-    reply_data['ticket'] = id #assign the ticket which she replied to
-    reply_data['createdBy'] = request.user.id # created by assistante DZ
-    serializer = TicketReponseSerializer(data=reply_data)
-    
-    if serializer.is_valid():
-        serializer.save()
         
-        # Update the Ticket's etat to 'RESOLU'
+        
+    reply_data = request.data.copy()
+    
+    # handle saving file:
+    if 'attachment' in request.FILES:
+        uploaded_file = request.FILES['piecesjointes']
+        fs = FileSystemStorage()
+        saved_file = fs.save(uploaded_file.name,uploaded_file)
+        file_url = fs.url(saved_file)
+        print(file_url)
+        # store its url
+        reply_data['piecesjointes'] = file_url
+
+        if not uploaded_file.name:
+            return Response({"error": "Votre fichier ne possède pas de nom"}, status=status.HTTP_400_BAD_REQUEST)
+    
+    reply_serializer = TicketReponseSerializer(data=reply_data)
+        
+    if reply_serializer.is_valid():
+        reply = reply_serializer.save()
+        
         ticket = Ticket.objects.get(id=id)
         ticket.etat = 'RESOLU'
+        ticket.reply = reply
         ticket.save()
+        
+        return Response(reply_serializer.data, status=status.HTTP_201_CREATED)
+    return Response(reply_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
- 
     
+    
+    
+    
+ 
 
 @api_view(['PATCH'])
 @authentication_classes([JWTAuthentication])

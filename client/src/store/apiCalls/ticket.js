@@ -57,6 +57,8 @@ export const createReply = createAsyncThunk(
   async (body, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
+      console.log("getting there: ", body.id);
+
       const res = await apiService.userFormData.post(
         `api/tickets/reply/${body.id}/`,
         body.reply

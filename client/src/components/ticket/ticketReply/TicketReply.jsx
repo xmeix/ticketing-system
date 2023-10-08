@@ -6,6 +6,7 @@ import {
   createTicket,
   getTickets,
 } from "../../../store/apiCalls/ticket";
+import toast from "react-hot-toast";
 
 const TicketReply = ({ type, ticket }) => {
   const objectRef = useRef();
@@ -16,10 +17,10 @@ const TicketReply = ({ type, ticket }) => {
   const dispatch = useDispatch();
 
   const emptyFields = () => {
-    objectRef.current.value = "";
-    descriptionRef.current.value = "";
-    deadlineRef.current.value = "";
-    setSelectedFile(null);
+    // objectRef.current.value = "";
+    // descriptionRef.current.value = "";
+    // deadlineRef.current.value = "";
+    // setSelectedFile(null);
   };
   const handleFileInputChange = (e) => {
     const file = e.target.files[0];
@@ -27,6 +28,8 @@ const TicketReply = ({ type, ticket }) => {
   };
 
   const handleTicketAction = async () => {
+    console.log("handleTicket", ticket);
+
     let form_data = new FormData();
     if (selectedFile) {
       form_data.append("piecesjointes", selectedFile);
@@ -34,8 +37,6 @@ const TicketReply = ({ type, ticket }) => {
     form_data.append("description", descriptionRef.current.value);
 
     if (type === "new") {
-      console.log("here");
-
       form_data.append("deadline", deadlineRef.current.value);
       form_data.append("objet", objectRef.current.value);
 
@@ -43,15 +44,22 @@ const TicketReply = ({ type, ticket }) => {
       await dispatch(getTickets());
       emptyFields();
     } else {
-      console.log("here");
-
       form_data.append("objet", `Re: ${ticket?.objet}`);
-      dispatch(
-        createReply({
-          id: ticket?.id,
-          reply: form_data,
-        })
-      );
+      if (descriptionRef.current.value) {
+        dispatch(
+          createReply({
+            id: ticket?.id,
+            reply: form_data,
+          })
+        );
+      } else {
+        toast.error("Veuillez remplir les champs nécessaires..", {
+          id: "reply-empty",
+        });
+      }
+
+      // dispatch(getTickets())
+      // dispatch(getReplies())
     }
   };
 
@@ -120,6 +128,11 @@ const TicketReply = ({ type, ticket }) => {
           {type === "new" ? "Créer" : "Envoyer"}
         </button>
       </div>
+      {/* this ticket content gonna contain the reply content not the ticket */}
+      {/* this ticket content gonna contain the reply content not the ticket */}
+      {/* {type === "ticket" && (
+        <TicketContent ticket={ticket} type="normal-ticket" />
+      )} */}
     </div>
   );
 };

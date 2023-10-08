@@ -3,6 +3,11 @@ export const getDate = (ticket) => {
     ticket?.createdAt
   ).getMonth()} - ${new Date(ticket?.createdAt).getFullYear()}`;
 };
+export const getTime = (ticket) => {
+  return `${new Date(ticket?.createdAt).getHours()}:${new Date(
+    ticket?.createdAt
+  ).getMinutes()}:${new Date(ticket?.createdAt).getSeconds()}`;
+};
 export const getName = (ticket, type) => {
   if (type === "afr")
     return `${ticket?.afr?.last_name} ${ticket?.afr?.first_name}`.toLowerCase();

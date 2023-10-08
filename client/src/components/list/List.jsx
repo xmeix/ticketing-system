@@ -248,34 +248,34 @@ const List = () => {
 
   /** HANDLE  SORT ___________________________________________________*/
 
-  // const [sortOrder, setSortOrder] = useState({
-  //   column: "createdAt",
-  //   direction: "desc",
-  // });
+  const [sortOrder, setSortOrder] = useState({
+    column: "updatedAt",
+    direction: "desc",
+  });
 
-  // const sortedData = useMemo(() => {
-  //   const sorted = [...filteredTickets].sort((a, b) => {
-  //     const column = sortOrder.column;
-  //     const direction = sortOrder.direction === "asc" ? 1 : -1;
-  //     if (a[column] < b[column]) {
-  //       return -1 * direction;
-  //     } else if (a[column] > b[column]) {
-  //       return 1 * direction;
-  //     } else {
-  //       return 0;
-  //     }
-  //   });
-  //   return sorted;
-  // }, [filteredTickets, sortOrder]);
+  const sortedData = useMemo(() => {
+    const sorted = [...filteredTickets].sort((a, b) => {
+      const column = sortOrder.column;
+      const direction = sortOrder.direction === "asc" ? 1 : -1;
+      if (a[column] < b[column]) {
+        return -1 * direction;
+      } else if (a[column] > b[column]) {
+        return 1 * direction;
+      } else {
+        return 0;
+      }
+    });
+    return sorted;
+  }, [filteredTickets, sortOrder]);
 
-  // const handleSort = () => {
-  //   const isAsc = sortOrder.direction === "asc";
+  const handleSort = () => {
+    const isAsc = sortOrder.direction === "asc";
 
-  //   setSortOrder({
-  //     column: sortOrder.column,
-  //     direction: isAsc ? "desc" : "asc",
-  //   });
-  // };
+    setSortOrder({
+      column: sortOrder.column,
+      direction: isAsc ? "desc" : "asc",
+    });
+  };
   /**_______________________________________________ */
 
   const handleChangePage = (event, newPage) => {
@@ -287,14 +287,14 @@ const List = () => {
     setPage(0);
   };
 
-  const paginatedData = filteredTickets.slice(
+  const paginatedData = sortedData.slice(
     page * rowsPerPage,
     page * rowsPerPage + rowsPerPage
   );
 
   return (
     <div className="list">
-      <ListParams setFilter={setFilter} />
+      <ListParams setFilter={setFilter} handleSort={handleSort} />
 
       <TableContainer
         component={Paper}

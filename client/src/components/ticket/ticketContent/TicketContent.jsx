@@ -1,5 +1,6 @@
 import React from "react";
 import "./TicketContent.css";
+import { getDate, getEmail, getName } from "../../../utils/utilFunctions";
 
 const TicketContent = ({ ticket, type }) => {
   const handleFileDownload = () => {
@@ -54,23 +55,39 @@ const TicketContent = ({ ticket, type }) => {
           <span>Créé Par:</span>{" "}
           <div className="creator-name">
             {type === "normal-ticket"
-              ? `${ticket?.afr?.last_name} ${ticket?.afr?.first_name}`.toLowerCase()
-              : `${ticket?.adz?.last_name} ${ticket?.adz?.first_name}`.toLowerCase()}
+              ? getName(ticket, "afr")
+              : getName(ticket, "adz")}
           </div>
           <span>Email:</span>
           <div className="creator-email">
             {type === "normal-ticket"
-              ? `${ticket?.afr?.email}`
-              : `${ticket?.adz?.email}`}{" "}
+              ? getEmail(ticket, "afr")
+              : getEmail(ticket, "adz")}
           </div>
         </div>
         <div className="ticket-creation-date flex-row">
           <span>Créé le:</span>
-          {`${new Date(ticket?.createdAt).getDate()} - ${new Date(
-            ticket?.createdAt
-          ).getMonth()} - ${new Date(ticket?.createdAt).getFullYear()}`}
+          {getDate(ticket)}
         </div>
       </div>
+
+      {ticket?.adz !== null && (
+        <>
+          <hr />
+          <div className="flex-row justify-between">
+            <div className="ticket-creator flex-column">
+              <span>Pris Par:</span>
+              <div className="creator-name">
+                {type === "normal-ticket" ? getName(ticket, "adz") : "/"}
+              </div>
+              <span>Email:</span>
+              <div className="creator-email">
+                {type === "normal-ticket" ? getEmail(ticket, "adz") : "/"}
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };

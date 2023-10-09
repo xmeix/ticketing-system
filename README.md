@@ -15,16 +15,16 @@ Comment exécuter ?
 POUR LE SERVEUR :
 
 Ouvrez un nouveau terminal.
-pip install -r requirements.txt.
-python manage.py migrate.
-python manage.py createsuperuser.
-Tapez la commande "python manage.py runserver" pour lancer le serveur.
-Dans deux nœuds différents : Tapez 'celery -A server worker --pool=solo -l info' et 'celery -A server beat --loglevel=info' pour exécuter le planificateur qui définit les tickets comme expirés.
+- pip install -r requirements.txt.
+- python manage.py migrate.
+- python manage.py createsuperuser.
+- Tapez la commande "python manage.py runserver" pour lancer le serveur.
+- Dans deux nœuds différents : Tapez 'celery -A server worker --pool=solo -l info' et 'celery -A server beat --loglevel=info' pour exécuter le planificateur qui définit les tickets comme expirés.
 
 
 POUR LE CLIENT :
 
-Tapez dans un autre nœud : cd client.
-yarn install  => pour installer les dépendances React et exécuter le client.
-yarn run dev 
-Connectez-vous à l'application en utilisant l'email et le mot de passe du superutilisateur que vous avez créé, puis ajoutez d'autres utilisateurs.
+- Tapez dans un autre nœud : cd client.
+- yarn install  => pour installer les dépendances React et exécuter le client.
+- yarn run dev
+- Connectez-vous à l'application en utilisant l'email et le mot de passe du superutilisateur que vous avez créé, puis ajoutez d'autres utilisateurs.

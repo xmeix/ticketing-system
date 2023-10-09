@@ -175,12 +175,7 @@ REST_FRAMEWORK = {
     ),
 
 }
-
-# REST_FRAMEWORK = {
-#     'DEFAULT_AUTHENTICATION_CLASSES': [
-#         'rest_framework_simplejwt.authentication.JWTAuthentication',
-#     ],
-# }
+ 
 
 # the JWT token are the default settings from the SimpleJWT docs.
 SIMPLE_JWT = {
@@ -223,20 +218,6 @@ SIMPLE_JWT = {
 
 
 }
- 
- 
-#  # Use Redis as the message broker
-# CELERY_BROKER_URL = 'redis://localhost:6379'
-
-# # Use Redis as the result backend
-# CELERY_RESULT_BACKEND = 'django-db'
-
-# # Ensure that Celery knows about the Django app config
-# CELERY_ACCEPT_CONTENT = ['application/json']
-# CELERY_TASK_SERIALIZER = 'json'
-# CELERY_RESULT_SERIALIZER = 'json'
-
-
 
 
 TIME_ZONE = 'Africa/Algiers' 
@@ -277,7 +258,6 @@ CELERY_RESULT_BACKEND = "redis://localhost:6379"
 CELERY_BEAT_SCHEDULE = {
     'check-ticket-deadlines': {
         'task': 'tickets.tasks.check_ticket_deadlines',
-        'schedule': crontab(),  # Run daily at midnight
-      
+        'schedule': crontab(minute=0, hour=0),  # Run daily at midnight
     },
 }

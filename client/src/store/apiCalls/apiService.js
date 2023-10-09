@@ -70,13 +70,13 @@ userRequest.interceptors.response.use(
   (error) => {
     const originalRequest = error.config;
 
-    // if (
-    //   error.response.status === 401 &&
-    //   originalRequest.url === baseURL + "api/auth/token/refresh/"
-    // ) {
-    //   window.location.href = "/login/";
-    //   return Promise.reject(error);
-    // }
+    if (
+      error.response.status === 401 &&
+      originalRequest.url === baseURL + "api/auth/token/refresh/"
+    ) {
+      window.location.href = "/login/";
+      return Promise.reject(error);
+    }
     if (
       error.response.data.code === "token_not_valid" &&
       error.response.status === 401 &&

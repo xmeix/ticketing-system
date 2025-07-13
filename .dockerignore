@@ -1,0 +1,4 @@
+# Ignore node_modules and log files
+client/node_modules
+client/npm-debug.log
+client/yarn-error.log
